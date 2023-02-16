@@ -1,5 +1,6 @@
 <script setup>
-import ListItem from '../components/ListItem.vue'
+import ListItem from '../components/Home/ListItem.vue'
+
 import { ref, onMounted } from "vue";
 
 
@@ -13,8 +14,6 @@ onMounted(async () => {
   allUser.value = await response.json();
   console.log(allUser.value.users);
 });
-
-
 </script>
 
 <template>
