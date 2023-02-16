@@ -1,7 +1,7 @@
 <script setup>
 import Sidebar from "../components/Sidebar/Sidebar.vue";
-import Header from "../components/UserDetails/Header.vue";
-import Profile from "../components/UserDetails/Profile/Profile.vue"
+import Header from "../components/Header/Header.vue";
+import Profile from "../components/Profile/Profile.vue"
 
 import { ref, onMounted, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
@@ -19,7 +19,7 @@ const AsyncProfile = defineAsyncComponent(async () => {
     currentUserData.value = allUsers.value.users.filter(
       (eachData) => eachData.id == userId
     )[0];
-    resolve(import("../components/UserDetails/Profile/Profile.vue"));
+    resolve(import("../components/Profile/Profile.vue"));
   });
 });
 

@@ -4,7 +4,7 @@ const props = defineProps({ userData: Object });
 const router = useRouter()
 
 const onUserClick = (userId) => {
-    router.push(`/user/${userId}`)
+    router.push(`/user/${userId}/profile`)
 }
 </script>
 
