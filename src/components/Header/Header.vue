@@ -3,7 +3,7 @@ import {ref} from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 
-const props = defineProps({currentUserData: Object})
+const props = defineProps({currentUserData: Object, currentPath:String})
 const showLogout = ref(false)
 
 const onHoverProfile = () => {
@@ -33,7 +33,7 @@ const onClickClose = () => {
         </div>
 
 
-    <p class="page-name">Profile</p>
+    <p class="page-name">{{ props.currentPath.toUpperCase() }}</p>
     <div class="profile-info-container" @click="onHoverProfile">
       <img
         :src="props.currentUserData.profilepicture"

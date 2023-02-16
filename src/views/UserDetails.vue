@@ -34,7 +34,7 @@ const AsyncProfile = defineAsyncComponent(async () => {
   <div class="bg-wrapper-user-detail">
     <Sidebar :currentPath="currentPath" :userId="userId"/>
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData"/>
+      <Header :currentUserData="currentUserData" :currentPath="currentPath" />
       <AsyncProfile :currentUserData="currentUserData" />
     </div>
   </div>

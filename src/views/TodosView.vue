@@ -27,7 +27,7 @@ onMounted(async () => {
   <div class="bg-wrapper-user-detail">
     <Sidebar :currentPath="currentPath" :userId="userId"/>
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData"/>
+      <Header :currentUserData="currentUserData" :currentPath="currentPath"/>
       <div class="posts-container">
         <h1 class="info-panel">Todos Empty</h1>
       </div>
