@@ -1,7 +1,6 @@
 <script setup>
 import Sidebar from "../components/Sidebar/Sidebar.vue";
 import Header from "../components/Header/Header.vue";
-import Profile from "../components/Profile/Profile.vue"
 
 import { ref, onMounted, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
@@ -13,21 +12,14 @@ const userId = route.params.id;
 const allUsers = ref([]);
 const currentUserData = ref([]);
 
-const AsyncProfile = defineAsyncComponent(async () => {
-  return new Promise(async (resolve) => {
+
+onMounted(async () => {
     response.value = await fetch("https://panorbit.in/api/users.json");
     allUsers.value = await response.value.json();
     currentUserData.value = allUsers.value.users.filter(
       (eachData) => eachData.id == userId
     )[0];
-    resolve(import("../components/Profile/Profile.vue"));
-  });
-});
-
-
-
-
-
+})
 </script>
 
 <template>
@@ -35,17 +27,32 @@ const AsyncProfile = defineAsyncComponent(async () => {
     <Sidebar :currentPath="currentPath" :userId="userId"/>
     <div class="user-details-container">
       <Header :currentUserData="currentUserData"/>
-      <AsyncProfile :currentUserData="currentUserData" />
+      <div class="posts-container">
+        <h1 class="info-panel">Gallery Empty</h1>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style >
 .bg-wrapper-user-detail {
   width: 100vi;
   height: 100vh;
   display: flex;
   box-sizing: border-box;
+}
+
+.info-panel{
+    font-size: 78px;
+    opacity: 0.2;
+}
+
+.posts-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .user-details-container {

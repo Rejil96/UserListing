@@ -1,13 +1,21 @@
 <script setup>
+import { useRouter } from 'vue-router';
+const props = defineProps({currentPath: String, userId:String})
+const router = useRouter()
+
+const onClickNav = (path) => {
+    router.push(`/user/${props.userId}/${path}`)
+}
+
 </script>
 
 <template>
     <div class="side-bar-container">
         <ul class="side-bar-nav">
-            <li class="side-bar-nav-item">Profile</li>
-            <li class="side-bar-nav-item">Post</li>
-            <li class="side-bar-nav-item">Gallery</li>
-            <li class="side-bar-nav-item">Todo</li>
+            <li class="side-bar-nav-item" :class="{ 'active' : props.currentPath === 'profile'}" @click="onClickNav(`profile`)">Profile</li>
+            <li class="side-bar-nav-item" :class="{ 'active' : props.currentPath === 'post'}" @click="onClickNav(`post`)">Post</li>
+            <li class="side-bar-nav-item" :class="{ 'active' : props.currentPath === 'gallery'}" @click="onClickNav(`gallery`)">Gallery</li>
+            <li class="side-bar-nav-item" :class="{ 'active' : props.currentPath === 'todos'}" @click="onClickNav(`todos`)">Todo</li>
         </ul>
     </div>
 </template>
@@ -45,6 +53,11 @@
     font-size: 22px;
     color: #d7d7d7;
     cursor: pointer;
+}
+
+.active{
+    color: #ffffff;
+    font-size: 39px;
 }
 </style>
 

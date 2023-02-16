@@ -1,5 +1,5 @@
 <script setup>
-import ListItem from '../components/Home/ListItem.vue'
+import ListItem from '../components/ListItem/ListItem.vue'
 
 import { ref, onMounted } from "vue";
 
