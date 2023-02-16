@@ -35,6 +35,16 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
     </div>
     <div class="address-info-container">
       <Address :addressData="addressData" />
+      <div class="map">
+        <iframe
+          title="map"
+          src="https://maps.google.com/maps?q=10.305385,77.923029&hl=es;z=14&amp;output=embed"
+          width="100%"
+          height="460"
+          frameBorder="0"
+          allowFullScreen
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -56,7 +66,7 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
 }
 
 .profile-banner-img {
-  width: 200px;
+  width: 240px;
   border-radius: 50%;
   margin-top: 50px;
 }
@@ -72,5 +82,11 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.map{
+  width: 600px;
+  height: 1000px;
+  margin-top: 80px;
 }
 </style>
