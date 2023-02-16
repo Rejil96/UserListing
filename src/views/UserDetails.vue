@@ -24,10 +24,6 @@ const AsyncProfile = defineAsyncComponent(async () => {
   });
 });
 
-
-
-
-
 </script>
 
 <template>

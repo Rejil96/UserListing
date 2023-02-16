@@ -8,7 +8,7 @@ const props = defineProps({ currentUserData: Object });
 const companyData = ref({});
 const addressData = ref({});
 
-// const basicUserData =
+
 // const temp = ref(JSON.parse(JSON.stringify(props.currentUserData)));
 onMounted(() => {
   // excludeDataForBasicData(...props.currentUserData)
@@ -86,7 +86,7 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
 
 .map{
   width: 600px;
-  height: 1000px;
+  height: 100%;
   margin-top: 80px;
 }
 </style>
