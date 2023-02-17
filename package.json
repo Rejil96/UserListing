@@ -12,7 +12,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.0.10",
+    "element-plus": "^2.2.30",
     "install": "^0.13.0",
+    "uid": "^2.0.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vue3-google-map": "^0.15.0"

@@ -8,10 +8,11 @@ const props = defineProps({ addressData: Object });
 // watch(
 //   () => props.addressData,
 //   (newValue) => {
-//     addressDatas.value = newValue
+//     addressDatas.value = newValues
 //     console.log(addressDatas.value)
 //   }
 // );
+
 </script>
 
 <template>

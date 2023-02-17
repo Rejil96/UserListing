@@ -35,7 +35,7 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
     </div>
     <div class="address-info-container">
       <Address :addressData="addressData" />
-      <div class="map">
+      <!-- <div class="map">
         <iframe
           title="map"
           src="https://maps.google.com/maps?q=10.305385,77.923029&hl=es;z=14&amp;output=embed"
@@ -44,7 +44,7 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
           frameBorder="0"
           allowFullScreen
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
