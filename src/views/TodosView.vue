@@ -26,13 +26,17 @@ const userId = route.params.id;
 const allUsers = ref([]);
 const currentUserData = ref([]);
 
+const userBasedTodos = ref([])
 const todoText = ref("");
 const isTodoCompleted = ref(false);
 const todoList = ref([]);
 const isEditable = ref(false);
 const editedInputValue = ref("")
 
+
 onMounted(async () => {
+
+  
   response.value = await fetch("https://panorbit.in/api/users.json");
   allUsers.value = await response.value.json();
   currentUserData.value = allUsers.value.users.filter(
@@ -40,9 +44,27 @@ onMounted(async () => {
   )[0];
 });
 
-const userBasedTodo = () => {
-      localStorage.setItem()
-}
+// const userBasedTodo = () => {
+//   if(localStorage.getItem("userTodos")){
+//     const loadTodos = JSON.parse(localStorage.getItem("userTodos"))
+//     console.log(loadTodos)
+//     const newTodoList = loadTodos.map(eachData => {
+//       if(eachData.id == userId){
+//         return ({...eachData, todos: {...eachData.todos, ...todoList.value}})
+//       }
+//       return eachData
+//     })
+//     localStorage.setItem("userTodos", JSON.stringify(newTodoList))
+//     // todoList.value = loadTodos.filter(eachData => eachData.id == userId)[0].todos
+//   }else{
+//     const userBasedTodoItem = [{
+//       userId: userId,
+//       todos: todoList.value
+//     }]
+//     localStorage.setItem("userTodos", JSON.stringify(userBasedTodoItem))
+//   }
+
+// }
 
 const onAddTodo = () => {
   todoList.value.push({
@@ -52,10 +74,12 @@ const onAddTodo = () => {
     isTodoCompleted: isTodoCompleted.value,
     isEditable : false
   });
-
+  
   todoText.value = "";
-  console.log(todoList.value);
+
 };
+
+
 
 const onCheck = (todoId) => {
   todoList.value = todoList.value.map((eachData) => {

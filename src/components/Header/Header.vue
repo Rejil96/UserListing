@@ -60,6 +60,7 @@ const onClickClose = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .header{
