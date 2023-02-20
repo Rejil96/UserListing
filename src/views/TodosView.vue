@@ -21,50 +21,85 @@ import { useRoute } from "vue-router";
 
 const response = ref("");
 const route = useRoute();
+
+//Finding the current user based on path params
 const currentPath = route.path.split("/").pop();
 const userId = route.params.id;
 const allUsers = ref([]);
 const currentUserData = ref([]);
 
-const userBasedTodos = ref([])
+//states for creating todos
+const userBasedTodos = ref([]);
 const todoText = ref("");
 const isTodoCompleted = ref(false);
 const todoList = ref([]);
 const isEditable = ref(false);
-const editedInputValue = ref("")
+const editedInputValue = ref("");
 
+onMounted(() => {
+  onFetchUserData();
+  isDataFoundInLocalStorage();
+});
 
-onMounted(async () => {
+//This function will load the local storage data if its already exist
+const isDataFoundInLocalStorage = () => {
+  if (localStorage.getItem("userTodos")) {
+    const getCurrentStoredItems = JSON.parse(localStorage.getItem("userTodos"));
+    const replaceTodosFromLocalStorage = getCurrentStoredItems.filter(
+      (eachData) => eachData.userId == userId
+    )[0];
+    if (replaceTodosFromLocalStorage) {
+      todoList.value = replaceTodosFromLocalStorage.todos;
+    } else {
+      userBasedTodo();
+    }
 
-  
+  }
+};
+
+//This function will load the currnt user based on the current path id
+const onFetchUserData = async () => {
   response.value = await fetch("https://panorbit.in/api/users.json");
   allUsers.value = await response.value.json();
   currentUserData.value = allUsers.value.users.filter(
     (eachData) => eachData.id == userId
   )[0];
-});
+};
 
-// const userBasedTodo = () => {
-//   if(localStorage.getItem("userTodos")){
-//     const loadTodos = JSON.parse(localStorage.getItem("userTodos"))
-//     console.log(loadTodos)
-//     const newTodoList = loadTodos.map(eachData => {
-//       if(eachData.id == userId){
-//         return ({...eachData, todos: {...eachData.todos, ...todoList.value}})
-//       }
-//       return eachData
-//     })
-//     localStorage.setItem("userTodos", JSON.stringify(newTodoList))
-//     // todoList.value = loadTodos.filter(eachData => eachData.id == userId)[0].todos
-//   }else{
-//     const userBasedTodoItem = [{
-//       userId: userId,
-//       todos: todoList.value
-//     }]
-//     localStorage.setItem("userTodos", JSON.stringify(userBasedTodoItem))
-//   }
 
-// }
+// This function will add the users in to the local storage along with the created todos list
+const userBasedTodo = () => {
+  if (localStorage.getItem("userTodos")) {
+    const getCurrentStoredUsers = JSON.parse(localStorage.getItem("userTodos"));
+    const isUserAltreadyExistInLs = getCurrentStoredUsers.filter((eachData) => eachData.userId == userId)[0]
+    if (isUserAltreadyExistInLs) {
+      console.log("entering")
+      const getCurrentStoredItems = JSON.parse(localStorage.getItem("userTodos"));
+      const modifyUserTodos = getCurrentStoredItems.map((eachData) => {
+        if (eachData.userId == userId) {
+          return {
+            userId: userId,
+            todos: [...todoList.value],
+          };
+        }
+        return eachData;
+      });
+
+      localStorage.setItem("userTodos", JSON.stringify(modifyUserTodos));
+    } else {
+      getCurrentStoredUsers.push({ userId, todos: todoList.value });
+      localStorage.setItem("userTodos", JSON.stringify(getCurrentStoredUsers));
+    }
+  } else {
+    const lsData = JSON.stringify([
+      {
+        userId,
+        todos: todoList.value,
+      },
+    ]);
+    localStorage.setItem("userTodos", lsData);
+  }
+};
 
 const onAddTodo = () => {
   todoList.value.push({
@@ -72,14 +107,13 @@ const onAddTodo = () => {
     id: uid(16),
     todoText: todoText.value,
     isTodoCompleted: isTodoCompleted.value,
-    isEditable : false
+    isEditable: isEditable.value,
   });
-  
+
   todoText.value = "";
-
+  //The delete modification will store in local storage
+  userBasedTodo();
 };
-
-
 
 const onCheck = (todoId) => {
   todoList.value = todoList.value.map((eachData) => {
@@ -88,30 +122,35 @@ const onCheck = (todoId) => {
     }
     return eachData;
   });
+
+  userBasedTodo()
 };
 
 const onDelete = (todoId) => {
   todoList.value = todoList.value.filter((eachData) => eachData.id !== todoId);
+  userBasedTodo()
 };
 
-const onEdit = (todoId) =>{
+const onEdit = (todoId) => {
   todoList.value = todoList.value.map((eachData) => {
     if (eachData.id === todoId) {
-      editedInputValue.value = eachData.todoText
+      editedInputValue.value = eachData.todoText;
       return { ...eachData, isEditable: !eachData.isEditable };
     }
     return eachData;
   });
-}
+  userBasedTodo()
+};
 
 const onSaveEdit = (todoId) => {
   todoList.value = todoList.value.map((eachData) => {
     if (eachData.id === todoId) {
-      return { ...eachData, todoText: editedInputValue.value,isEditable:false};
+      return { ...eachData, todoText: editedInputValue.value, isEditable: false };
     }
     return eachData;
   });
-}
+  userBasedTodo()
+};
 </script>
 
 <template>
@@ -128,7 +167,11 @@ const onSaveEdit = (todoId) => {
                 placeholder="Enter Todo Task"
                 class="input-control"
               />
-              <el-button type="primary" class="add-todo-btn" :disabled="todoText.length < 6" @click="onAddTodo"
+              <el-button
+                type="primary"
+                class="add-todo-btn"
+                :disabled="todoText.length < 6"
+                @click="onAddTodo"
                 >+</el-button
               >
             </div>
@@ -145,10 +188,28 @@ const onSaveEdit = (todoId) => {
                   :value="todo.todoText"
                   class="custom-edit-input"
                 />
-                <p v-else class="item-panel" :class="todo.isTodoCompleted ?  'custom-completed-text': '' ">{{ todo.todoText }}</p>
+                <p
+                  v-else
+                  class="item-panel"
+                  :class="todo.isTodoCompleted ? 'custom-completed-text' : ''"
+                >
+                  {{ todo.todoText }}
+                </p>
                 <div class="button-wrapper">
-                  <el-button type="primary" v-if="todo.isEditable" @click="onSaveEdit(todo.id)" :disabled="editedInputValue.length < 6">Save</el-button>
-                  <el-button v-else type="primary" :icon="Edit" circle @click="onEdit(todo.id)"/>
+                  <el-button
+                    type="primary"
+                    v-if="todo.isEditable"
+                    @click="onSaveEdit(todo.id)"
+                    :disabled="editedInputValue.length < 6"
+                    >Save</el-button
+                  >
+                  <el-button
+                    v-else
+                    type="primary"
+                    :icon="Edit"
+                    circle
+                    @click="onEdit(todo.id)"
+                  />
                   <el-button
                     type="danger"
                     :icon="Delete"
@@ -253,7 +314,7 @@ const onSaveEdit = (todoId) => {
 }
 
 li:nth-child(even) {
-    background-color: #ffffe0;
+  background-color: #ffffe0;
 }
 
 .button-wrapper {
@@ -272,7 +333,7 @@ li:nth-child(even) {
   background-color: #ffffff;
 }
 
-.custom-edit-input{
+.custom-edit-input {
   background-color: transparent !important;
   height: 40px;
   width: 80%;
@@ -280,17 +341,17 @@ li:nth-child(even) {
   background-color: black;
 }
 
-.custom-completed-text{
+.custom-completed-text {
   text-decoration: line-through;
 }
 
-.item-panel{
+.item-panel {
   margin-left: 40px;
   word-wrap: break-word;
   line-height: 24px;
 }
 
-.empty-bg-container{
+.empty-bg-container {
   width: 100%;
   height: 50vh;
   display: flex;

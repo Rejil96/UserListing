@@ -28,7 +28,7 @@ onMounted(async () => {
     <Sidebar :currentPath="currentPath" :userId="userId"/>
     <div class="user-details-container">
       <Header :currentUserData="currentUserData" :currentPath="currentPath"/>
-      <div class="posts-container">
+      <div class="posts-emptycontainer">
         <h1 class="info-panel">Posts Empty</h1>
       </div>
     </div>
