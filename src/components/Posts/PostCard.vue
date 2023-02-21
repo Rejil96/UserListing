@@ -1,22 +1,56 @@
 <script setup>
+import {ref, watch} from 'vue'
 import { ElButton} from "element-plus";
 import { Delete} from "@element-plus/icons-vue";
 
 import {useThemeStore} from '../../store/theme.js'
 import {storeToRefs} from 'pinia'
+const showDeletePopup = ref(false)
+const isConfirmDelete = ref(false)
 
 const props = defineProps({postData: Object, currentUserId: String})
 const emit = defineEmits(["onDelete"])
 
 const theme = useThemeStore();
 const { darkTheme } = storeToRefs(theme);
-
+ 
 const onDeletePost = (postId) => {
-    emit("onDelete", postId)
+  showDeletePopup.value = true  
+}
+
+const onConfirmDelete = () => {
+  isConfirmDelete.value = true
+}
+
+watch(isConfirmDelete, () => {
+  if(isConfirmDelete){
+    emit("onDelete", props.postData.id)
+    isConfirmDelete.value = false
+  }
+})
+
+
+const onDeleteClick = () => {
+showDeletePopup.value = true
+}
+
+const onCancelDelete = () => {
+  showDeletePopup.value = false
 }
 </script>
 
 <template>
+  <Teleport to="body">
+        <div class="delete-popup" v-if="showDeletePopup">
+          <div class="delete-popup-content">
+              <p class="delete-popup-text">Are you sure to delete this post ?</p>
+              <div class="button-wrapper">
+                <el-button type="primary" @click="onCancelDelete" class="cancel-btn">Cancel</el-button>
+                <el-button type="danger" class="confirm-btn" @click="onConfirmDelete">Confirm</el-button>
+              </div>
+            </div>
+        </div>
+    </Teleport>
     <div class="post-card" :class="{'theme-post-content' : darkTheme}">
           <div class="post-card-header" :class="{'theme-post-header' : darkTheme}">
             <div class="user-info-section">
@@ -144,4 +178,43 @@ const onDeletePost = (postId) => {
 .theme-post-content{
   background-color: #1a1919;
 }
+
+
+.delete-popup {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgb(26, 25, 25, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.delete-popup-content{
+  width: 26vw;
+  height: 24vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.button-wrapper{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.delete-popup-text{
+  font-weight: 500 ;
+  font-size: 20px;
+}
+
 </style>
