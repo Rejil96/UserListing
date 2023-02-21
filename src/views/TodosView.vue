@@ -11,6 +11,9 @@ import {
   ElCheckbox,
 } from "element-plus";
 
+import {useThemeStore} from '../store/theme.js'
+import {storeToRefs} from 'pinia'
+
 import { Delete, Edit, Check } from "@element-plus/icons-vue";
 
 import Sidebar from "../components/Sidebar/Sidebar.vue";
@@ -18,6 +21,9 @@ import Header from "../components/Header/Header.vue";
 
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+
+const theme = useThemeStore() 
+const {darkTheme} = storeToRefs(theme)
 
 const response = ref("");
 const route = useRoute();
@@ -154,7 +160,7 @@ const onSaveEdit = (todoId) => {
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail">
+  <div class="bg-wrapper-user-detail" :class="{'darkTheme' : darkTheme}">
     <Sidebar :currentPath="currentPath" :userId="userId" />
     <div class="user-details-container">
       <Header :currentUserData="currentUserData" :currentPath="currentPath" />
@@ -166,6 +172,7 @@ const onSaveEdit = (todoId) => {
                 v-model="todoText"
                 placeholder="Enter Todo Task"
                 class="input-control"
+                :class="{'custom-theme-bg' : darkTheme}"
               />
               <el-button
                 type="primary"
@@ -226,8 +233,8 @@ const onSaveEdit = (todoId) => {
                 </div>
               </li>
             </ul>
-            <div v-else class="empty-bg-container">
-              <h1 class="todoEmptyText">Todos Empty</h1>
+            <div v-if="todoList.length === 0" class="empty-bg-container">
+              <h1 class="todoEmptyText" :class="{'theme-empty-color' : darkTheme}">Todos Empty</h1>
             </div>
           </el-col>
         </el-row>
@@ -361,4 +368,29 @@ li:nth-child(even) {
   font-weight: 600;
   opacity: 0.2;
 }
+.darkTheme{
+  background-color: black;
+}
+
+.todoEmptyText{
+  font-size: 78px;
+    opacity: 0.9;
+}
+
+.theme-empty-color{
+  font-size: 78px;
+  color: #ffffff;
+    opacity: 0.8;
+}
+
+.custom-theme-bg :deep(.el-input__inner){
+  background-color: #252424;
+  color: #ffffff;
+}
+
+.custom-theme-bg :deep(.el-input__wrapper)  {
+  background-color: #252424;
+  box-shadow: 0 0 0 0px;
+}
+
 </style>

@@ -1,9 +1,14 @@
 <script setup>
 import Sidebar from "../components/Sidebar/Sidebar.vue";
 import Header from "../components/Header/Header.vue";
+import {useThemeStore} from '../store/theme.js'
+import {storeToRefs} from 'pinia'
 
 import { ref, onMounted, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
+
+const theme = useThemeStore() 
+const {darkTheme} = storeToRefs(theme)
 
 const response = ref("");
 const route = useRoute();
@@ -23,12 +28,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail">
+  <div class="bg-wrapper-user-detail"  :class="{'darkTheme' : darkTheme}">
     <Sidebar :currentPath="currentPath" :userId="userId"/>
     <div class="user-details-container">
       <Header :currentUserData="currentUserData" :currentPath="currentPath"/>
       <div class="posts-container">
-        <h1 class="info-panel">Gallery Empty</h1>
+        <h1 class="info-panel" :class="{ 'theme-empty-color' : darkTheme}">Gallery Empty</h1>
       </div>
     </div>
   </div>
@@ -64,5 +69,15 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+}
+
+.darkTheme{
+  background-color: black;
+}
+
+.theme-empty-color{
+  font-size: 78px;
+  color: #ffffff;
+    opacity: 0.2;
 }
 </style>

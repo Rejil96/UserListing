@@ -3,6 +3,9 @@ import Sidebar from "../components/Sidebar/Sidebar.vue";
 import Header from "../components/Header/Header.vue";
 import Profile from "../components/Profile/Profile.vue";
 import PostCard from "../components/Posts/PostCard.vue";
+import {useThemeStore} from '../store/theme.js'
+import {storeToRefs} from 'pinia'
+
 import { ElButton, ElInput, ElForm, ElFormItem, ElSelect, ElOption } from "element-plus";
 
 import { Delete, Edit, Check } from "@element-plus/icons-vue";
@@ -10,6 +13,9 @@ import { Delete, Edit, Check } from "@element-plus/icons-vue";
 import { ref, onMounted, watch} from "vue";
 import { useRoute } from "vue-router";
 import { uid } from "uid";
+
+const theme = useThemeStore() 
+const {darkTheme} = storeToRefs(theme)
 
 const postsList = ref([]);
 const postTitle = ref("");
@@ -75,25 +81,27 @@ const onDeletePosts = (postId) => {
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail">
+  <div class="bg-wrapper-user-detail"  :class="{'darkTheme' : darkTheme}">
     <Sidebar :currentPath="currentPath" :userId="userId" />
     <div class="user-details-container">
       <Header :currentUserData="currentUserData" :currentPath="currentPath" />
       <div class="posts-container">
         <el-form class="custom-demo-form-inline">
-          <el-form-item label="Post Title:">
+          <el-form-item label="Post Title:" :class="{ 'custom-theme-label' : darkTheme}">
             <el-input
               placeholder="Post Title"
               class="title-input-control"
               v-model="postTitle"
+              :class="{'custom-theme-bg' : darkTheme}"
             />
           </el-form-item>
-          <el-form-item label="Post Content">
+          <el-form-item label="Post Content" :class="{ 'custom-theme-label' : darkTheme}">
             <el-input
               :rows="4"
               type="textarea"
               placeholder="Please input"
               v-model="postContent"
+              :class="{ 'custom-theme-bg' : darkTheme}"
             />
           </el-form-item>
           <div class="button-wrapper">
@@ -111,12 +119,14 @@ const onDeletePosts = (postId) => {
             class="m-2"
             placeholder="Select"
             size="large"
+            :class="{ 'custom-theme-bg' : darkTheme}"
           >
             <el-option
               v-for="item in filterConstants"
               :key="item"
               :label="item"
               :value="item"
+              :class="{ 'custom-theme-bg' : darkTheme}"
             />
           </el-select>
         </div>
@@ -132,7 +142,7 @@ const onDeletePosts = (postId) => {
         </ul>
       </div>
       <div class="posts-empty-container" v-if="postsList.length === 0">
-        <h1 class="info-panel">Posts Empty</h1>
+        <h1 class="info-panel" :class="{ 'theme-empty-color' : darkTheme}">Posts Empty</h1>
       </div>
     </div>
   </div>
@@ -212,4 +222,47 @@ const onDeletePosts = (postId) => {
   align-items: center;
   justify-content: flex-end;
 }
+
+.darkTheme{
+  background-color: black;
+}
+
+.custom-theme-label :deep(.el-form-item__label){
+  color: #ffffff;
+}
+
+.custom-theme-bg :deep(.el-input__inner){
+  background-color: #252424;
+  color: #ffffff;
+}
+
+.custom-theme-bg :deep(.el-input__wrapper)  {
+  background-color: #252424;
+  box-shadow: 0 0 0 0px;
+}
+
+.custom-theme-bg :deep(.el-textarea__inner){
+  background-color: #252424;
+  color: #ffffff;
+  box-shadow: 0 0 0 0px;
+}
+
+.custom-theme-bg :deep(.el-input__wrapper) {
+  background-color: #252424;
+  color: #ffffff;
+  box-shadow: 0 0 0 0px;
+}
+
+.custom-theme-bg :deep(.el-input__wrapper){
+  background-color: #252424;
+  color: #ffffff;
+  box-shadow: 0 0 0 0px;
+}
+
+.theme-empty-color{
+  font-size: 78px;
+  color: #ffffff;
+    opacity: 0.2;
+}
+
 </style>

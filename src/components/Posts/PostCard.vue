@@ -2,8 +2,14 @@
 import { ElButton} from "element-plus";
 import { Delete} from "@element-plus/icons-vue";
 
+import {useThemeStore} from '../../store/theme.js'
+import {storeToRefs} from 'pinia'
+
 const props = defineProps({postData: Object, currentUserId: String})
 const emit = defineEmits(["onDelete"])
+
+const theme = useThemeStore();
+const { darkTheme } = storeToRefs(theme);
 
 const onDeletePost = (postId) => {
     emit("onDelete", postId)
@@ -11,14 +17,14 @@ const onDeletePost = (postId) => {
 </script>
 
 <template>
-    <div class="post-card">
-          <div class="post-card-header">
+    <div class="post-card" :class="{'theme-post-content' : darkTheme}">
+          <div class="post-card-header" :class="{'theme-post-header' : darkTheme}">
             <div class="user-info-section">
               <img :src="props.postData.profilePicture" :alt="props.postData.username" class="post-user-img"/>
-              <p class="username-info">{{ props.postData.username }}</p>
+              <p class="username-info" :class="{'theme-text' : darkTheme}">{{ props.postData.username }}</p>
             </div>
             <div class="post-control-container">
-              <p class="created-date">{{ new Date().toLocaleDateString("en-US") }}</p>
+              <p class="created-date" :class="{'theme-text' : darkTheme}">{{ new Date().toLocaleDateString("en-US") }}</p>
               <el-button
                     type="danger"
                     :icon="Delete"
@@ -30,9 +36,8 @@ const onDeletePost = (postId) => {
             </div>
            
           </div>
-            <p class="post-title">{{ props.postData.postTitle }}</p>
-            <p class="post-content-section">{{ props.postData.postContent }}</p>
-            
+            <p class="post-title" :class="{'theme-text-title' : darkTheme}">{{ props.postData.postTitle }}</p>
+            <p class="post-content-section" :class="{'theme-text-content' : darkTheme}">{{ props.postData.postContent }}</p>
         </div>
 </template>
 
@@ -118,5 +123,25 @@ const onDeletePost = (postId) => {
   font-size: 14px;
   color: #6a6a6a;
   word-wrap: break-word;
+}
+
+.theme-post-header{
+  background-color: #2c2c2c;
+}
+
+.theme-text{
+  color: #dadada;
+}
+
+.theme-text-title{
+  color: #fefefe;
+}
+
+.theme-text-content{
+  color: #dad8d8;
+}
+
+.theme-post-content{
+  background-color: #1a1919;
 }
 </style>

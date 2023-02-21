@@ -4,14 +4,18 @@ import Company from "./Info/Company.vue";
 import Address from "./Info/Address.vue";
 import { GoogleMap, Marker } from "vue3-google-map";
 import { onMounted, ref } from "vue";
+import {useThemeStore} from '../../store/theme.js'
+import {storeToRefs} from 'pinia'
 const props = defineProps({ currentUserData: Object });
 const companyData = ref({});
 const addressData = ref({});
 
+const theme = useThemeStore();
+const { darkTheme } = storeToRefs(theme);
 
-// const temp = ref(JSON.parse(JSON.stringify(props.currentUserData)));
+
+
 onMounted(() => {
-  // excludeDataForBasicData(...props.currentUserData)
   companyData.value = props.currentUserData.company;
   addressData.value = props.currentUserData.address;
 });
@@ -29,7 +33,7 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
         :alt="props.currentUserData.username"
         class="profile-banner-img"
       />
-      <p class="profile-name">{{ props.currentUserData.name }}</p>
+      <p class="profile-name" :class="{'theme-text' : darkTheme}">{{ props.currentUserData.name }}</p>
       <BasicUserInfo :currentUserData="currentUserData" />
       <Company :companyData="companyData" />
     </div>
@@ -88,5 +92,9 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
   width: 600px;
   height: 100%;
   margin-top: 80px;
+}
+
+.theme-text{
+  color: #ffffff;
 }
 </style>

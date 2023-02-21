@@ -3,8 +3,15 @@ import Sidebar from "../components/Sidebar/Sidebar.vue";
 import Header from "../components/Header/Header.vue";
 import Profile from "../components/Profile/Profile.vue"
 
+import {useThemeStore} from '../store/theme.js'
+import {storeToRefs} from 'pinia'
+
 import { ref, onMounted, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
+
+const theme = useThemeStore() 
+const {darkTheme} = storeToRefs(theme)
+
 
 const response = ref("");
 const route = useRoute();
@@ -27,9 +34,10 @@ const AsyncProfile = defineAsyncComponent(async () => {
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail">
+  <div class="bg-wrapper-user-detail" :class="{ 'darkTheme' : darkTheme}">
     <Sidebar :currentPath="currentPath" :userId="userId"/>
     <div class="user-details-container">
+    
       <Header :currentUserData="currentUserData" :currentPath="currentPath" />
       <AsyncProfile :currentUserData="currentUserData" />
     </div>
@@ -42,6 +50,10 @@ const AsyncProfile = defineAsyncComponent(async () => {
   height: 100vh;
   display: flex;
   box-sizing: border-box;
+}
+
+.darkTheme{
+  background-color: black;
 }
 
 .user-details-container {
