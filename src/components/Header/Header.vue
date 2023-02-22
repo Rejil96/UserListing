@@ -28,19 +28,20 @@ const { darkTheme } = storeToRefs(theme);
 
 <template>
   <div class="header">
-    <div class="profile-pop-card" v-if="showLogout" :class="{ theme: darkTheme }">
-      <img
-        :src="props.currentUserData.profilepicture"
-        :alt="props.currentUserData.username"
-        class="user-logout-img"
-      />
-      <p>{{ props.currentUserData.name }}</p>
-      <div class="button-wrapper">
-        <button class="close-btn" @click="onClickClose">Close</button>
-        <button class="logout-btn" @click="onLogoutClick">Logout</button>
+    <Transition name="bounce">
+      <div class="profile-pop-card" v-if="showLogout" :class="{ theme: darkTheme }">
+        <img
+          :src="props.currentUserData.profilepicture"
+          :alt="props.currentUserData.username"
+          class="user-logout-img"
+        />
+        <p>{{ props.currentUserData.name }}</p>
+        <div class="button-wrapper">
+          <button class="close-btn" @click="onClickClose">Close</button>
+          <button class="logout-btn" @click="onLogoutClick">Logout</button>
+        </div>
       </div>
-    </div>
-
+    </Transition>
     <p class="page-name" :class="{ 'theme-text': darkTheme }">
       {{ props.currentPath.toUpperCase() }}
     </p>
@@ -108,7 +109,7 @@ const { darkTheme } = storeToRefs(theme);
 }
 
 .button-wrapper {
-  width: 60%;
+  width: 100%;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -162,5 +163,25 @@ const { darkTheme } = storeToRefs(theme);
 .theme {
   background-color: #e1e0e0;
   box-shadow: -1px 1px 41px 0px #3c3c3c8c;
+}
+
+/* animation  */
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

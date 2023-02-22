@@ -22,8 +22,10 @@ const onClickNav = (path) => {
 <template>
   <div class="side-bar-container">
     <div class="theme-wrapper">
-      <el-button type="primary" :icon="Moon" circle class="custom-theme-btn" @click="changeTheme" v-if="darkTheme"> </el-button>
-      <el-button type="primary" :icon="Sunny" circle class="custom-light-theme-btn" @click="changeTheme" v-if="!darkTheme"> </el-button>
+      <Transition name="slide-up">
+        <el-button type="primary" :icon="Moon" circle class="custom-theme-btn" @click="changeTheme" v-if="darkTheme"> </el-button>
+        <el-button type="primary" :icon="Sunny" circle class="custom-light-theme-btn" @click="changeTheme" v-else> </el-button>
+    </Transition>
     </div>
     <div class="nav-wrapper">
         <ul class="side-bar-nav">
@@ -146,5 +148,32 @@ background-color: #ffffff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+/* animation  */
+
+.theme-wrapper {
+  display: inline-block;
+  position: relative;
+  height: 1em;
+}
+
+button {
+  position: absolute;
+  right: 40px;
+}
+
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>

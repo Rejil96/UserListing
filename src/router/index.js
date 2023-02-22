@@ -4,6 +4,7 @@ import UserDetails from '../views/UserDetails.vue'
 import PostView from "../views/PostView.vue"
 import GalleryView from "../views/GalleryView.vue"
 import TodosView from "../views/TodosView.vue"
+import Login from '../views/Login.vue'
 
 const router = createRouter ({
     history: createWebHistory(import.meta.env.BASE_URL),

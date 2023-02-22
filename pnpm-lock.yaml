@@ -8,6 +8,7 @@ specifiers:
   install: ^0.13.0
   pinia: ^2.0.30
   uid: ^2.0.1
+  vee-validate: ^4.7.4
   vite: ^4.1.0
   vue: ^3.2.45
   vue-router: ^4.1.6
@@ -19,6 +20,7 @@ dependencies:
   install: 0.13.0
   pinia: 2.0.30_vue@3.2.47
   uid: 2.0.1
+  vee-validate: 4.7.4_vue@3.2.47
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
   vue3-google-map: 0.15.0_vue@3.2.47
@@ -905,6 +907,15 @@ packages:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
     dev: true
+
+  /vee-validate/4.7.4_vue@3.2.47:
+    resolution: {integrity: sha512-pfhKluYimYvSQIiFoIY29NAgl0j24DqPsodlCny/NlOrYbougdjbL1C9yYqmba4Ka3YUY6vOZ0GE2wcwMsKQ5A==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@vue/devtools-api': 6.5.0
+      vue: 3.2.47
+    dev: false
 
   /vite/4.1.1:
     resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}

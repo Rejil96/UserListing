@@ -186,7 +186,7 @@ const onSaveEdit = (todoId) => {
         </el-row>
         <el-row type="flex" justify="start" class="input-control-container">
           <el-col :span="24">
-            <ul class="todo-listing-container" v-if="todoList.length > 0">
+            <TransitionGroup name="list" tag="ul" class="todo-listing-container" v-if="todoList.length > 0">
               <li v-for="todo in todoList" :key="todo.id" class="list-item">
                 <el-input
                   v-model="editedInputValue"
@@ -232,7 +232,7 @@ const onSaveEdit = (todoId) => {
                   />
                 </div>
               </li>
-            </ul>
+            </TransitionGroup>
             <div v-if="todoList.length === 0" class="empty-bg-container">
               <h1 class="todoEmptyText" :class="{'theme-empty-color' : darkTheme}">Todos Empty</h1>
             </div>
@@ -393,4 +393,23 @@ li:nth-child(even) {
   box-shadow: 0 0 0 0px;
 }
 
+/* animation  */
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
+}
 </style>

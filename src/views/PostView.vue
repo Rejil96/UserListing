@@ -87,7 +87,7 @@ const onDeletePosts = (postId) => {
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail" :class="{ darkTheme: darkTheme }">
+  <div class="bg-wrapper-user-detail" :class="{ 'darkTheme': darkTheme }">
     
 
     <Sidebar :currentPath="currentPath" :userId="userId" />
@@ -198,6 +198,7 @@ const onDeletePosts = (postId) => {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .custom-demo-form-inline {

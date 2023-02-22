@@ -1,87 +1,104 @@
 <script setup>
-import {ref, watch} from 'vue'
-import { ElButton} from "element-plus";
-import { Delete} from "@element-plus/icons-vue";
+import { ref, watch } from "vue";
+import { ElButton } from "element-plus";
+import { Delete } from "@element-plus/icons-vue";
 
-import {useThemeStore} from '../../store/theme.js'
-import {storeToRefs} from 'pinia'
-const showDeletePopup = ref(false)
-const isConfirmDelete = ref(false)
+import { useThemeStore } from "../../store/theme.js";
+import { storeToRefs } from "pinia";
+const showDeletePopup = ref(false);
+const isConfirmDelete = ref(false);
 
-const props = defineProps({postData: Object, currentUserId: String})
-const emit = defineEmits(["onDelete"])
+const props = defineProps({ postData: Object, currentUserId: String });
+const emit = defineEmits(["onDelete"]);
 
 const theme = useThemeStore();
 const { darkTheme } = storeToRefs(theme);
- 
+
 const onDeletePost = (postId) => {
-  showDeletePopup.value = true  
-}
+  showDeletePopup.value = true;
+};
 
 const onConfirmDelete = () => {
-  isConfirmDelete.value = true
-}
+  showDeletePopup.value = false;
+  isConfirmDelete.value = true;
+};
 
 watch(isConfirmDelete, () => {
-  if(isConfirmDelete){
-    emit("onDelete", props.postData.id)
-    isConfirmDelete.value = false
+  if (isConfirmDelete) {
+    emit("onDelete", props.postData.id);
+    isConfirmDelete.value = false;
   }
-})
-
+});
 
 const onDeleteClick = () => {
-showDeletePopup.value = true
-}
+  showDeletePopup.value = true;
+};
 
 const onCancelDelete = () => {
-  showDeletePopup.value = false
-}
+  showDeletePopup.value = false;
+};
 </script>
 
 <template>
   <Teleport to="body">
-        <div class="delete-popup" v-if="showDeletePopup">
-          <div class="delete-popup-content">
-              <p class="delete-popup-text">Are you sure to delete this post ?</p>
-              <div class="button-wrapper">
-                <el-button type="primary" @click="onCancelDelete" class="cancel-btn">Cancel</el-button>
-                <el-button type="danger" class="confirm-btn" @click="onConfirmDelete">Confirm</el-button>
-              </div>
-            </div>
-        </div>
-    </Teleport>
-    <div class="post-card" :class="{'theme-post-content' : darkTheme}">
-          <div class="post-card-header" :class="{'theme-post-header' : darkTheme}">
-            <div class="user-info-section">
-              <img :src="props.postData.profilePicture" :alt="props.postData.username" class="post-user-img"/>
-              <p class="username-info" :class="{'theme-text' : darkTheme}">{{ props.postData.username }}</p>
-            </div>
-            <div class="post-control-container">
-              <p class="created-date" :class="{'theme-text' : darkTheme}">{{ new Date().toLocaleDateString("en-US") }}</p>
-              <el-button
-                    type="danger"
-                    :icon="Delete"
-                    circle
-                    class="custom-bg-post-btn"
-                    :disabled="props.postData.userId != props.currentUserId"
-                    @click="onDeletePost(props.postData.id)"
-                  />
-            </div>
-           
+    <Transition name="bounce">
+      <div class="delete-popup" v-if="showDeletePopup">
+        <div class="delete-popup-content">
+          <p class="delete-popup-text">Are you sure to delete this post ?</p>
+          <div class="button-wrapper">
+            <el-button type="primary" @click="onCancelDelete" class="cancel-btn"
+              >Cancel</el-button
+            >
+            <el-button type="danger" class="confirm-btn" @click="onConfirmDelete"
+              >Confirm</el-button
+            >
           </div>
-            <p class="post-title" :class="{'theme-text-title' : darkTheme}">{{ props.postData.postTitle }}</p>
-            <p class="post-content-section" :class="{'theme-text-content' : darkTheme}">{{ props.postData.postContent }}</p>
         </div>
+      </div>
+    </Transition>
+  </Teleport>
+  <li class="post-card" :class="{ 'theme-post-content': darkTheme }">
+    <div class="post-card-header" :class="{ 'theme-post-header': darkTheme }">
+      <div class="user-info-section">
+        <img
+          :src="props.postData.profilePicture"
+          :alt="props.postData.username"
+          class="post-user-img"
+        />
+        <p class="username-info" :class="{ 'theme-text': darkTheme }">
+          {{ props.postData.username }}
+        </p>
+      </div>
+      <div class="post-control-container">
+        <p class="created-date" :class="{ 'theme-text': darkTheme }">
+          {{ new Date().toLocaleDateString("en-US") }}
+        </p>
+        <el-button
+          type="danger"
+          :icon="Delete"
+          circle
+          class="custom-bg-post-btn"
+          :disabled="props.postData.userId != props.currentUserId"
+          @click="onDeletePost(props.postData.id)"
+        />
+      </div>
+    </div>
+    <p class="post-title" :class="{ 'theme-text-title': darkTheme }">
+      {{ props.postData.postTitle }}
+    </p>
+    <p class="post-content-section" :class="{ 'theme-text-content': darkTheme }">
+      {{ props.postData.postContent }}
+    </p>
+  </li>
 </template>
 
 <style scoped>
-.post-card{
+.post-card {
   width: 260px;
   height: 220px;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 2px 34px -6px rgba(0,0,0,0.18);
+  box-shadow: 2px 2px 34px -6px rgba(0, 0, 0, 0.18);
   border-radius: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -89,20 +106,20 @@ const onCancelDelete = () => {
   overflow-y: auto;
 }
 
-.post-card-header{
+.post-card-header {
   position: sticky;
   top: 0;
   right: 0;
   left: 0;
   width: 100%;
-  height:34px;
+  height: 34px;
   background-color: rgb(230, 255, 247);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.user-info-section{
+.user-info-section {
   width: 50px;
   align-items: center;
   display: flex;
@@ -110,7 +127,7 @@ const onCancelDelete = () => {
   padding-left: 10px;
 }
 
-.post-title{
+.post-title {
   font-size: 18px;
   font-weight: 500;
   margin: 0px;
@@ -118,39 +135,38 @@ const onCancelDelete = () => {
   padding-left: 10px;
   margin: 20px 0px;
   word-wrap: break-word;
-
 }
-.post-user-img{
+.post-user-img {
   width: 20px;
   height: 20px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-.username-info{
+.username-info {
   font-size: 12px;
   color: #383838;
 }
 
-.created-date{
+.created-date {
   font-size: 12px;
   color: #383838;
   padding-right: 5px;
 }
 
-.post-control-container{
+.post-control-container {
   display: flex;
   align-items: center;
 }
 
-.custom-bg-post-btn{
+.custom-bg-post-btn {
   background-color: transparent;
   border: none;
   color: #d21b1b;
   font-weight: bold;
 }
 
-.post-content-section{
+.post-content-section {
   margin: 0px;
   padding: 0px;
   padding-left: 10px;
@@ -159,26 +175,25 @@ const onCancelDelete = () => {
   word-wrap: break-word;
 }
 
-.theme-post-header{
+.theme-post-header {
   background-color: #2c2c2c;
 }
 
-.theme-text{
+.theme-text {
   color: #dadada;
 }
 
-.theme-text-title{
+.theme-text-title {
   color: #fefefe;
 }
 
-.theme-text-content{
+.theme-text-content {
   color: #dad8d8;
 }
 
-.theme-post-content{
+.theme-post-content {
   background-color: #1a1919;
 }
-
 
 .delete-popup {
   position: absolute;
@@ -191,9 +206,10 @@ const onCancelDelete = () => {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);
+  overflow: hidden;
 }
 
-.delete-popup-content{
+.delete-popup-content {
   width: 26vw;
   height: 24vh;
   display: flex;
@@ -204,7 +220,7 @@ const onCancelDelete = () => {
   border-radius: 10px;
 }
 
-.button-wrapper{
+.button-wrapper {
   width: 100%;
   display: flex;
   align-items: center;
@@ -212,9 +228,41 @@ const onCancelDelete = () => {
   margin-top: 20px;
 }
 
-.delete-popup-text{
-  font-weight: 500 ;
+.delete-popup-text {
+  font-weight: 500;
   font-size: 20px;
 }
 
+/* animation */
+.bounce-enter-active {
+  animation: bounce-in 0.6s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
+
+
+
+/* animation */
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>
