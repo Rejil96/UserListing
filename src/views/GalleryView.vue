@@ -43,7 +43,7 @@ const onCreateGallery = () => {
   });
 
   imageUrl.value = "";
-  captionText.value = " ";
+  captionText.value = "";
   console.log(galleryList.value);
 };
 </script>
