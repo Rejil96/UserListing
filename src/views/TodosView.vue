@@ -325,6 +325,7 @@ li:nth-child(even) {
 }
 
 .button-wrapper {
+  height: 100%;
   display: flex;
   align-items: center;
   width: 120px;
