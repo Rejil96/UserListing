@@ -85,6 +85,7 @@ const { darkTheme } = storeToRefs(theme);
   margin: 0px;
   padding: 10px 40px;
   border-bottom: 1px solid #bababa;
+  
 }
 .page-name {
   font-weight: 600;

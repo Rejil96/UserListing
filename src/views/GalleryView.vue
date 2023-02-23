@@ -4,11 +4,13 @@ import Header from "../components/Header/Header.vue";
 import { useThemeStore } from "../store/theme.js";
 import { storeToRefs } from "pinia";
 
+import { Delete } from "@element-plus/icons-vue";
+
 import { uid } from "uid";
 
 import { ElButton, ElInput, ElForm, ElFormItem, ElSelect, ElOption } from "element-plus";
 
-import { ref, onMounted, defineAsyncComponent } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const imageUrl = ref("");
@@ -25,12 +27,26 @@ const userId = route.params.id;
 const allUsers = ref([]);
 const currentUserData = ref([]);
 
+const filterConstants = ["All", "My Images"];
+const currentFilterCondition = ref(filterConstants[0]);
+
 onMounted(async () => {
   response.value = await fetch("https://panorbit.in/api/users.json");
   allUsers.value = await response.value.json();
   currentUserData.value = allUsers.value.users.filter(
     (eachData) => eachData.id == userId
   )[0];
+
+  onPreLoadFromLs();
+
+});
+
+watch(currentFilterCondition, () => {
+  if (currentFilterCondition.value === "My Images") {
+    galleryList.value = galleryList.value.filter((eachData) => eachData.userId == userId);
+  } else {
+    galleryList.value = JSON.parse(localStorage.getItem("gallery"));
+  }
 });
 
 const onCreateGallery = () => {
@@ -39,12 +55,55 @@ const onCreateGallery = () => {
     userId: userId,
     imageUrl: imageUrl.value,
     captionText: captionText.value,
-    likeCount : 0
+    likedUserIds: [],
+    userProfileImg:currentUserData.value.profilepicture,
+    imgUsername: currentUserData.value.username
   });
-
+  localStorage.setItem("gallery", JSON.stringify(galleryList.value));
   imageUrl.value = "";
   captionText.value = "";
   console.log(galleryList.value);
+};
+
+const onLike = (imageId) => {
+  galleryList.value =  galleryList.value.map(eachData => {
+
+   
+    if(eachData.id === imageId){
+      console.log(eachData.likedUserIds.includes(userId))
+      if(eachData.likedUserIds.includes(userId)){
+        const filteredUserIdList = eachData.likedUserIds.filter(eachUserId => eachUserId !=  userId)
+        return ({...eachData, likedUserIds: filteredUserIdList})
+    }else{
+     
+      return ({...eachData, likedUserIds: [...eachData.likedUserIds, userId]})
+     
+    }
+    }
+
+    return eachData
+  })
+  localStorage.setItem("gallery", JSON.stringify(galleryList.value));
+
+}
+
+const onPreLoadFromLs = () => {
+  if (localStorage.getItem("gallery")) {
+    galleryList.value = JSON.parse(localStorage.getItem("gallery"));
+  } else {
+    localStorage.setItem("gallery", JSON.stringify(galleryList.value));
+  }
+};
+
+const onDeleteImages = (imageId) => {
+  const filteredImages = JSON.parse(localStorage.getItem("gallery")).filter(
+    (eachData) => eachData.id !== imageId
+  );
+  localStorage.setItem("gallery", JSON.stringify(filteredImages));
+  galleryList.value =
+    currentFilterCondition.value === "All"
+      ? filteredImages
+      : filteredImages.filter((eachData) => eachData.userId == userId);
 };
 </script>
 
@@ -82,36 +141,74 @@ const onCreateGallery = () => {
           </div>
         </el-form>
 
-        <ul class="image-listing-container">
+        <div class="filter-panel">
+          <el-select
+            v-model="currentFilterCondition"
+            class="m-2"
+            placeholder="Select"
+            size="large"
+            :class="{ 'custom-theme-bg': darkTheme }"
+          >
+            <el-option
+              v-for="item in filterConstants"
+              :key="item"
+              :label="item"
+              :value="item"
+              :class="{ 'custom-theme-bg': darkTheme }"
+            />
+          </el-select>
+        </div>
+        
+        <TransitionGroup name="list" tag="ul" class="image-listing-container" v-if="galleryList.length > 0">
+          
           <li class="image-card" v-for="item in galleryList">
-          <div class="img-wrapper">
-            <img :src="item.imageUrl" alt="gallery image" class="image-thumb" />
-          </div>
-            
+            <div class="img-wrapper">
+              <img :src="item.imageUrl" alt="gallery image" class="image-thumb" />
+            </div>
+
             <div class="card-footer">
               <p class="caption-text">{{ item.captionText }}</p>
-              <button class="like-btn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                  />
-                </svg>
-              </button>
+              <div class="image-control-wrapper">
+
+                <button class="like-btn" :class="{'liked': item.likedUserIds.includes(userId)}" @click="onLike(item.id)">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-heart-fill"
+                    viewBox="0 0 16 16"
+                   
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                    />
+                  </svg>
+                </button>
+                <div class="overlay-img-wrapper">
+                  <img :src="item.userProfileImg" alt="profile icon" class="profile-icon-img"/>
+                <p class="profile-overlay-name">{{ item.imgUsername }}</p>
+                </div>
+               
+                <p class="like-text"><span class="like-count-text">{{ item.likedUserIds.length }} </span> &nbsp; Likes</p>
+                <el-button
+                  type="danger"
+                  :icon="Delete"
+                  circle
+                  class="custom-bg-post-btn"
+                  @click="onDeleteImages(item.id)"
+                  :disabled="item.userId != userId"
+                />
+              </div>
             </div>
-          </li>
-        </ul>
+          
+        </li>
+        </TransitionGroup>
       </div>
-      <!-- <div class="posts-empty-container">
+      <div class="posts-empty-container" v-if="galleryList.length === 0">
         <h1 class="info-panel" :class="{ 'theme-empty-color' : darkTheme}">Gallery Empty</h1>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -190,7 +287,7 @@ const onCreateGallery = () => {
 }
 
 .image-listing-container {
-  width: 100%;
+  width: 92%;
   height: 54vh;
   overflow-y: auto;
   display: flex;
@@ -204,12 +301,13 @@ const onCreateGallery = () => {
   display: flex;
   flex-direction: column;
   width: 300px;
-  height: 250px;
+  height: 230px;
   background-color: #ffffff;
   border-radius: 10px;
   margin-right: 20px;
   margin-bottom: 20px;
-  box-shadow: 2px -1px 28px -3px rgba(0,0,0,0.26);
+  box-shadow: 2px -1px 28px -3px rgba(0, 0, 0, 0.26);
+  position: relative;
 }
 
 .image-thumb {
@@ -217,7 +315,7 @@ const onCreateGallery = () => {
   height: 100%;
 }
 
-.img-wrapper{
+.img-wrapper {
   width: 100%;
   height: 80%;
 }
@@ -237,4 +335,94 @@ const onCreateGallery = () => {
   cursor: pointer;
   outline: none;
 }
+
+.custom-bg-post-btn {
+  background-color: transparent;
+  border: none;
+  color: #d21b1b;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.image-control-wrapper{
+  width: 120px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.like-btn{
+  color: #c4c4c4;
+}
+
+.liked{
+  color: #d21b1b;
+}
+
+.like-text{
+  color: #4f4d4d;
+  font-size: 12px;
+}
+
+.like-count-text{
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d2c2c;
+}
+
+.profile-icon-img{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  z-index: 10;
+}
+
+.overlay-img-wrapper{
+  display: flex;
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  align-items: center;
+  
+}
+
+.profile-overlay-name{
+  background-color: #ffffff;
+  opacity: 0.85;
+  padding: 3px 10px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-size: 12px;
+  position: absolute;
+  left: 25px;
+}
+
+.posts-empty-container{
+  width:100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-panel {
+  width: 90%;
+  margin: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+/* animation */
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.8s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
 </style>

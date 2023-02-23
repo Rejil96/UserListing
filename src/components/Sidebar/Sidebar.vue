@@ -6,10 +6,9 @@ import { storeToRefs } from "pinia";
 import { ElButton, ElIcon } from "element-plus";
 
 import { Moon, Sunny } from "@element-plus/icons-vue";
-
-const theme = useThemeStore();
-const { darkTheme } = storeToRefs(theme);
-const {changeTheme} = theme
+const theme = useThemeStore() 
+const {darkTheme} = storeToRefs(theme)
+const { changeTheme } = useThemeStore();
 
 const props = defineProps({ currentPath: String, userId: String });
 const router = useRouter();
@@ -23,41 +22,57 @@ const onClickNav = (path) => {
   <div class="side-bar-container">
     <div class="theme-wrapper">
       <Transition name="slide-up">
-        <el-button type="primary" :icon="Moon" circle class="custom-theme-btn" @click="changeTheme" v-if="darkTheme"> </el-button>
-        <el-button type="primary" :icon="Sunny" circle class="custom-light-theme-btn" @click="changeTheme" v-else> </el-button>
-    </Transition>
+        <el-button
+          type="primary"
+          :icon="Moon"
+          circle
+          class="custom-theme-btn"
+          @click="changeTheme"
+          v-if="darkTheme"
+        >
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="Sunny"
+          circle
+          class="custom-light-theme-btn"
+          @click="changeTheme"
+          v-else
+        >
+        </el-button>
+      </Transition>
     </div>
     <div class="nav-wrapper">
-        <ul class="side-bar-nav">
+      <ul class="side-bar-nav">
         <li
-            class="side-bar-nav-item"
-            :class="{ active: props.currentPath === 'profile' }"
-            @click="onClickNav(`profile`)"
+          class="side-bar-nav-item"
+          :class="{ active: props.currentPath === 'profile' }"
+          @click="onClickNav(`profile`)"
         >
-            Profile
+          Profile
         </li>
         <li
-            class="side-bar-nav-item"
-            :class="{ active: props.currentPath === 'post' }"
-            @click="onClickNav(`post`)"
+          class="side-bar-nav-item"
+          :class="{ active: props.currentPath === 'post' }"
+          @click="onClickNav(`post`)"
         >
-            Post
+          Post
         </li>
         <li
-            class="side-bar-nav-item"
-            :class="{ active: props.currentPath === 'gallery' }"
-            @click="onClickNav(`gallery`)"
+          class="side-bar-nav-item"
+          :class="{ active: props.currentPath === 'gallery' }"
+          @click="onClickNav(`gallery`)"
         >
-            Gallery
+          Gallery
         </li>
         <li
-            class="side-bar-nav-item"
-            :class="{ active: props.currentPath === 'todos' }"
-            @click="onClickNav(`todos`)"
+          class="side-bar-nav-item"
+          :class="{ active: props.currentPath === 'todos' }"
+          @click="onClickNav(`todos`)"
         >
-            Todo
+          Todo
         </li>
-        </ul>
+      </ul>
     </div>
   </div>
 </template>
@@ -132,8 +147,8 @@ const onClickNav = (path) => {
   height: 40px;
 }
 
-.custom-light-theme-btn{
-background-color: #ffffff;
+.custom-light-theme-btn {
+  background-color: #ffffff;
   border: none;
   font-size: 20px;
   width: 40px;
@@ -141,13 +156,13 @@ background-color: #ffffff;
   color: #000000;
 }
 
-.nav-wrapper{
-    height: 100%;
-    width: calc(100% - 60px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.nav-wrapper {
+  height: 100%;
+  width: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* animation  */
@@ -163,7 +178,8 @@ button {
   right: 40px;
 }
 
-.slide-up-enter-active, .slide-up-leave-active {
+.slide-up-enter-active,
+.slide-up-leave-active {
   transition: all 0.25s ease-out;
 }
 
