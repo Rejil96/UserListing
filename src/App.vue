@@ -12,6 +12,6 @@ import { RouterView } from "vue-router";
 
 <style scoped>
 .bg-container{
-  width: 100vw;
+  width: 100vw; 
 }
 </style>
