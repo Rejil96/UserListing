@@ -109,9 +109,9 @@ const onDeleteImages = (imageId) => {
 
 <template>
   <div class="bg-wrapper-user-detail" :class="{ darkTheme: darkTheme }">
-    <Sidebar :currentPath="currentPath" :userId="userId" />
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" />
+      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
       <div class="posts-container">
         <el-form class="custom-demo-form-inline">
           <el-form-item label="Image URL:" :class="{ 'custom-theme-label': darkTheme }">
@@ -213,7 +213,7 @@ const onDeleteImages = (imageId) => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .bg-wrapper-user-detail {
   width: 100vi;
   height: 100vh;
@@ -425,4 +425,9 @@ const onDeleteImages = (imageId) => {
   transform: translateX(30px);
 }
 
+@media screen and (max-width: 768px){
+  .custom-show{
+    display: none;
+  }
+}
 </style>

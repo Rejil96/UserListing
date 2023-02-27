@@ -90,10 +90,10 @@ const onDeletePosts = (postId) => {
   <div class="bg-wrapper-user-detail" :class="{ 'darkTheme': darkTheme }">
     
 
-    <Sidebar :currentPath="currentPath" :userId="userId" />
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" />
-      <div class="posts-container">
+      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
+      <div class="posts-container" >
         <el-form class="custom-demo-form-inline">
           <el-form-item label="Post Title:" :class="{ 'custom-theme-label': darkTheme }">
             <el-input
@@ -276,5 +276,10 @@ const onDeletePosts = (postId) => {
   opacity: 0.2;
 }
 
+@media screen and (max-width: 768px){
+  .custom-show{
+    display: none;
+  }
+}
 
 </style>

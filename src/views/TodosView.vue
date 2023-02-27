@@ -161,9 +161,9 @@ const onSaveEdit = (todoId) => {
 
 <template>
   <div class="bg-wrapper-user-detail" :class="{'darkTheme' : darkTheme}">
-    <Sidebar :currentPath="currentPath" :userId="userId" />
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" />
+      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
       <div class="todos-bg-wrapper">
         <el-row type="flex" justify="start" class="input-control-container">
           <el-col :span="24">
@@ -412,5 +412,11 @@ li:nth-child(even) {
    animations can be calculated correctly. */
 .list-leave-active {
   position: absolute;
+}
+
+@media screen and (max-width: 768px){
+  .custom-show{
+    display: none;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
 
 <template>
   <div class="path-not-found-container">
-    <h1 class="main-heading">404</h1>
+    <h1 class="main-heading-top">404</h1>
     <h1 class="main-heading">Not Found</h1>
     <p class="sub-text-info">Oops! The page you are looking for cannot be found.</p>
   </div>
@@ -26,9 +26,15 @@
   font-size: 42px;
   font-weight: bolder;
   text-align: center;
+  opacity: 0.8;
 }
 
 .sub-text-info {
   text-align: center;
+}
+
+.main-heading-top{
+    font-size: 80px;
+    opacity: 0.6;
 }
 </style>

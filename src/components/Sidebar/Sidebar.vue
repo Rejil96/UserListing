@@ -3,11 +3,11 @@ import { useRouter } from "vue-router";
 import { useThemeStore } from "../../store/theme.js";
 import { storeToRefs } from "pinia";
 
-import { ElButton, ElIcon } from "element-plus";
+import { ElButton } from "element-plus";
 
 import { Moon, Sunny } from "@element-plus/icons-vue";
-const theme = useThemeStore() 
-const {darkTheme} = storeToRefs(theme)
+const theme = useThemeStore();
+const { darkTheme } = storeToRefs(theme);
 const { changeTheme } = useThemeStore();
 
 const props = defineProps({ currentPath: String, userId: String });
@@ -81,7 +81,7 @@ const onClickNav = (path) => {
 .side-bar-container {
   box-sizing: border-box;
   height: 96%;
-  width: 360px;
+  width: 25vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -99,18 +99,23 @@ const onClickNav = (path) => {
   box-sizing: border-box;
 }
 
+@media screen and (min-width: 768px) {
+  .side-bar-container {
+    width: 30vw;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .side-bar-container {
+    width: 20vw;
+  }
+}
+
 .theme-wrapper {
   width: 100%;
   display: flex;
-  padding-top: 20px;
-  padding-right: 40px;
-  align-items: flex-start;
   justify-content: flex-end;
-}
-
-.themeButton {
-  width: 120px;
-  height: 40px;
+  position: relative;
 }
 
 .side-bar-nav {
@@ -120,7 +125,6 @@ const onClickNav = (path) => {
   display: flex;
   flex-direction: column;
   height: 30%;
-  width: 50%;
   justify-content: space-between;
 }
 
@@ -134,26 +138,66 @@ const onClickNav = (path) => {
   cursor: pointer;
 }
 
+@media screen and (max-width: 992px) {
+  .side-bar-nav-item {
+    font-size: 18px;
+  }
+}
+
 .active {
   color: #ffffff;
   font-size: 39px;
+}
+
+@media screen and (max-width: 992px) {
+  .active {
+    color: #ffffff;
+    font-size: 30px;
+  }
 }
 
 .custom-theme-btn {
   background-color: #000000;
   border: none;
   font-size: 20px;
-  width: 40px;
-  height: 40px;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media screen and (min-width: 992px) {
+  .custom-theme-btn {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    top: 15px;
+    right: 15px;
+  }
 }
 
 .custom-light-theme-btn {
   background-color: #ffffff;
   border: none;
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
   color: #000000;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media screen and (min-width: 992px) {
+  .custom-light-theme-btn {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    top: 15px;
+    right: 15px;
+  }
 }
 
 .nav-wrapper {
@@ -166,17 +210,6 @@ const onClickNav = (path) => {
 }
 
 /* animation  */
-
-.theme-wrapper {
-  display: inline-block;
-  position: relative;
-  height: 1em;
-}
-
-button {
-  position: absolute;
-  right: 40px;
-}
 
 .slide-up-enter-active,
 .slide-up-leave-active {

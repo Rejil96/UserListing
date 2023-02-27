@@ -20,6 +20,14 @@ const userId = route.params.id;
 const allUsers = ref([]);
 const currentUserData = ref([]);
 
+onMounted(async () => {
+  response.value = await fetch("https://panorbit.in/api/users.json");
+  allUsers.value = await response.value.json();
+  currentUserData.value = allUsers.value.users.filter(
+    (eachData) => eachData.id == userId
+  )[0];
+});
+
 const AsyncProfile = defineAsyncComponent(async () => {
   return new Promise(async (resolve) => {
     response.value = await fetch("https://panorbit.in/api/users.json");
@@ -35,10 +43,9 @@ const AsyncProfile = defineAsyncComponent(async () => {
 
 <template>
   <div class="bg-wrapper-user-detail" :class="{ 'darkTheme' : darkTheme}">
-    <Sidebar :currentPath="currentPath" :userId="userId"/>
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
     <div class="user-details-container">
-    
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" />
+      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
       <AsyncProfile :currentUserData="currentUserData" />
     </div>
   </div>
@@ -66,4 +73,12 @@ const AsyncProfile = defineAsyncComponent(async () => {
   align-items: center;
   box-sizing: border-box;
 }
+
+@media screen and (max-width: 768px){
+  .custom-show{
+    display: none;
+  }
+}
+
+
 </style>
