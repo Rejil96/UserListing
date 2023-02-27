@@ -20,8 +20,8 @@ onMounted(async () => {
   <div class="bg-container">
     <div class="user-card">
       <h1 class="card-heading">Select an account</h1>
-      <ul v-for="user in allUser.users" :key="user.id">
-            <ListItem :userData="user"/>
+      <ul>
+            <ListItem v-for="user in allUser.users" :key="user.id" :userData="user" />
       </ul>
     </div>
   </div>
@@ -96,6 +96,10 @@ ul {
   list-style: none;
   display: flex;
   flex-direction: column;
+  margin: 20px 0px;
+}
+
+li {
   margin: 20px 0px;
 }
 

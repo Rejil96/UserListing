@@ -197,7 +197,7 @@ const { darkTheme } = storeToRefs(theme);
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin-right: 10px;
+  width: 90%;
 }
 
 .profile-name {
@@ -336,7 +336,8 @@ const { darkTheme } = storeToRefs(theme);
   display: flex;
   align-items: center;
   position: relative;
-  width: 136px;
+  justify-content: center;
+  width: 50%;
 }
 
 .custom-theme-btn {
