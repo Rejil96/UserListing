@@ -40,6 +40,17 @@ const { darkTheme } = storeToRefs(theme);
   width: 100%;
   height: 15vh;
 }
+
+@media screen and (max-width: 768px) {
+  .profile-general-info {
+    display: flex;
+    width: 96%;
+    height: 20vh;
+    padding-bottom: 40px;
+  }
+
+}
+
 .general-info-label-container {
   height: 100%;
   width: 50%;
@@ -49,6 +60,12 @@ const { darkTheme } = storeToRefs(theme);
   text-align: right;
   list-style: none;
   padding-left: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .general-info-label-container {
+    width: 40%;
+  }
 }
 
 .general-info-value-container {
@@ -72,6 +89,12 @@ const { darkTheme } = storeToRefs(theme);
   text-align: right;
 }
 
+@media screen and (max-width: 768px) {
+  .general-info-label {
+    font-size: 14px;
+  }
+}
+
 .general-info-value {
   color: #333333;
   display: flex;
@@ -83,6 +106,12 @@ const { darkTheme } = storeToRefs(theme);
   padding-left: 20px;
 }
 
+@media screen and (max-width: 768px) {
+  .general-info-value{
+    font-size: 14px;
+  }
+}
+
 .company-name {
   font-size: 20px;
   color: #797979;
@@ -90,6 +119,13 @@ const { darkTheme } = storeToRefs(theme);
   margin: 0px;
   padding: 0px;
   margin-top: 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .company-name {
+    font-size: 16px;
+    margin-top: 40px;
+  }
 }
 
 .theme-text {

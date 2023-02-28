@@ -1,12 +1,10 @@
 <script setup>
-import ListItem from '../components/ListItem/ListItem.vue'
+import ListItem from "../components/ListItem/ListItem.vue";
 
 import { ref, onMounted } from "vue";
 
-
 const isLoading = ref(false);
 const allUser = ref([]);
-
 
 onMounted(async () => {
   isLoading.value = true;
@@ -21,7 +19,7 @@ onMounted(async () => {
     <div class="user-card">
       <h1 class="card-heading">Select an account</h1>
       <ul>
-            <ListItem v-for="user in allUser.users" :key="user.id" :userData="user" />
+        <ListItem v-for="user in allUser.users" :key="user.id" :userData="user" />
       </ul>
     </div>
   </div>
@@ -61,6 +59,21 @@ onMounted(async () => {
   background-position: top;
 }
 
+@media screen and (max-width: 768px) {
+  .bg-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url("../assets/mobileSvg.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top;
+  }
+}
+
 .card-heading {
   color: #151515;
   font-weight: 500;
@@ -73,6 +86,12 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  .card-heading {
+    font-size: 20px;
+  }
 }
 
 .user-card {
@@ -90,6 +109,12 @@ onMounted(async () => {
   border-radius: 10px;
 }
 
+@media screen and (max-width: 768px) {
+  .user-card {
+    height: 80vh;
+  }
+}
+
 ul {
   width: 100%;
   padding-left: 0px;
@@ -103,4 +128,30 @@ li {
   margin: 20px 0px;
 }
 
+@media screen and (max-width: 768px) {
+  li {
+    margin: 10px 0px;
+  }
+}
+
+@media screen and (max-width: 768px){
+  /* styles for scroll bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bdbcbc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bfbfbf;
+}
+}
 </style>

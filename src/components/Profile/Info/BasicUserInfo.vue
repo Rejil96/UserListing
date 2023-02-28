@@ -8,7 +8,7 @@ const { darkTheme } = storeToRefs(theme);
 </script>
 
 <template>
-  <div class="profile-general-info">
+  <div class="profile-general-info" :class="{ 'dark-border': darkTheme }">
     <ul class="general-info-label-container">
       <li class="general-info-label" :class="{ 'theme-label-text-lighter': darkTheme }">
         Username &nbsp; &nbsp;:
@@ -24,10 +24,18 @@ const { darkTheme } = storeToRefs(theme);
       </li>
     </ul>
     <ul class="general-info-value-container">
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ props.currentUserData.username }}</li>
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ props.currentUserData.email }}</li>
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ props.currentUserData.phone }}</li>
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ props.currentUserData.website }}</li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ props.currentUserData.username }}
+      </li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ props.currentUserData.email }}
+      </li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ props.currentUserData.phone }}
+      </li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ props.currentUserData.website }}
+      </li>
     </ul>
   </div>
 </template>
@@ -39,6 +47,20 @@ const { darkTheme } = storeToRefs(theme);
   height: 15vh;
 }
 
+@media screen and (max-width: 768px) {
+  .profile-general-info {
+    display: flex;
+    width: 96%;
+    height: 20vh;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 40px;
+  }
+
+  .dark-border {
+    border-bottom: 1px solid #454545;
+  }
+}
+
 .general-info-label-container {
   height: 100%;
   width: 50%;
@@ -48,6 +70,12 @@ const { darkTheme } = storeToRefs(theme);
   text-align: right;
   list-style: none;
   padding-left: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .general-info-label-container {
+    width: 40%;
+  }
 }
 
 .general-info-value-container {
@@ -71,6 +99,12 @@ const { darkTheme } = storeToRefs(theme);
   text-align: right;
 }
 
+@media screen and (max-width: 768px) {
+  .general-info-label {
+    font-size: 14px;
+  }
+}
+
 .general-info-value {
   color: #333333;
   display: flex;
@@ -80,6 +114,12 @@ const { darkTheme } = storeToRefs(theme);
   text-align: left;
   font-weight: 500;
   padding-left: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .general-info-value{
+    font-size: 14px;
+  }
 }
 
 .theme-label-text-lighter {

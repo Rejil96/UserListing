@@ -73,7 +73,6 @@ const onCreatePost = () => {
   postContent.value = "";
 };
 
-
 const onDeletePosts = (postId) => {
   const filteredPosts = JSON.parse(localStorage.getItem("posts")).filter(
     (eachData) => eachData.id !== postId
@@ -87,15 +86,21 @@ const onDeletePosts = (postId) => {
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail" :class="{ 'darkTheme': darkTheme }">
-    
-
-    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
+  <div class="bg-wrapper-user-detail" :class="{ darkTheme: darkTheme }">
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show" />
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
-      <div class="posts-container" >
+      <Header
+        :currentUserData="currentUserData"
+        :currentPath="currentPath"
+        :userId="userId"
+      />
+      <div class="posts-container">
         <el-form class="custom-demo-form-inline">
-          <el-form-item label="Post Title:" :class="{ 'custom-theme-label': darkTheme }">
+          <el-form-item
+            label="Post Title:"
+            :class="{ 'custom-theme-label': darkTheme }"
+            class="mobile-wrapper"
+          >
             <el-input
               placeholder="Post Title"
               class="title-input-control"
@@ -103,12 +108,17 @@ const onDeletePosts = (postId) => {
               :class="{ 'custom-theme-bg': darkTheme }"
             />
           </el-form-item>
-          <el-form-item label="Post Content" :class="{ 'custom-theme-label': darkTheme }">
+          <el-form-item
+            label="Post Content:"
+            :class="{ 'custom-theme-label': darkTheme }"
+            class="mobile-wrapper"
+          >
             <el-input
               :rows="4"
               type="textarea"
               placeholder="Please input"
               v-model="postContent"
+              class="content-input-control"
               :class="{ 'custom-theme-bg': darkTheme }"
             />
           </el-form-item>
@@ -117,6 +127,7 @@ const onDeletePosts = (postId) => {
               type="primary"
               @click="onCreatePost"
               :disabled="postTitle.length < 6 || postContent.length < 6"
+              class="custom-add-btn"
               >Add</el-button
             >
           </div>
@@ -124,7 +135,7 @@ const onDeletePosts = (postId) => {
         <div class="filter-panel">
           <el-select
             v-model="currentFilterCondition"
-            class="m-2"
+            class="m-2 custom-filter-panel"
             placeholder="Select"
             size="large"
             :class="{ 'custom-theme-bg': darkTheme }"
@@ -166,9 +177,22 @@ const onDeletePosts = (postId) => {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 768px) {
+  .bg-wrapper-user-detail {
+    height: 100%;
+  }
+}
+
 .info-panel {
   font-size: 78px;
   opacity: 0.2;
+}
+
+@media screen and (max-width: 768px) {
+  .info-panel {
+    font-size: 38px;
+    opacity: 0.2;
+  }
 }
 
 .posts-empty-container {
@@ -177,6 +201,14 @@ const onDeletePosts = (postId) => {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .posts-empty-container {
+    width: 70%;
+    height: 16vh;
+    align-items: flex-end;
+  }
 }
 
 .user-details-container {
@@ -201,9 +233,20 @@ const onDeletePosts = (postId) => {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 768px) {
+}
+
 .custom-demo-form-inline {
   width: 80%;
   padding: 20px;
+  margin: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .custom-demo-form-inline {
+    width: 100%;
+    padding: 20px 0px;
+  }
 }
 
 .title-input-control {
@@ -211,10 +254,35 @@ const onDeletePosts = (postId) => {
   margin-left: 18px;
 }
 
+@media screen and (max-width: 768px) {
+  .title-input-control {
+    width: 90vw;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content-input-control {
+    width: 90vw;
+    margin-left: 0px;
+  }
+}
+
 .button-wrapper {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 768px) {
+  .button-wrapper {
+    justify-content: center;
+  }
+  .custom-add-btn {
+    width: 92%;
+    height: 42px;
+    margin: 0px 40px;
+  }
 }
 
 .post-listing-container {
@@ -227,11 +295,25 @@ const onDeletePosts = (postId) => {
   padding: 0px 20px;
 }
 
+@media screen and (max-width: 768px) {
+  .post-listing-container {
+    overflow-y: auto;
+    width: 92%;
+    height: 100%;
+  }
+}
+
 .filter-panel {
   width: 98%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 768px) {
+  .custom-filter-panel {
+    width: 200px;
+  }
 }
 
 .darkTheme {
@@ -276,10 +358,26 @@ const onDeletePosts = (postId) => {
   opacity: 0.2;
 }
 
-@media screen and (max-width: 768px){
-  .custom-show{
+@media screen and (max-width: 768px) {
+  .theme-empty-color {
+    font-size: 38px;
+    color: #ffffff;
+    opacity: 0.2;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .custom-show {
     display: none;
   }
 }
 
+@media screen and (max-width: 768px) {
+  .mobile-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 </style>

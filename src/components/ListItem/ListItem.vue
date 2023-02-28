@@ -11,7 +11,7 @@ const onUserClick = (userId) => {
 <template>
   <li class="list-item" @click="onUserClick(props.userData.id)">
     <img :src="props.userData.profilepicture" class="profile-img" :alt="props.userData.username" />
-    <p>{{ props.userData.name }}</p>
+    <p class="user-label-text">{{ props.userData.name }}</p>
   </li>
 </template>
 
@@ -32,5 +32,16 @@ li {
   width: 50px;
   border-radius: 50%;
   margin-right: 40px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-img{
+    width: 30px;
+    margin-right: 20px;
+  }
+
+  .user-label-text{
+    font-size: 14px;
+  }
 }
 </style>

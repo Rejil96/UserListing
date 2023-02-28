@@ -1,10 +1,16 @@
 <script setup>
 import { RouterView } from "vue-router";
+import { useThemeStore } from "./store/theme.js";
+import { storeToRefs } from "pinia";
+
+const theme = useThemeStore();
+const { darkTheme } = storeToRefs(theme);
+
 </script>
 
 <template>
    <main>
-    <div class="bg-container">
+    <div class="bg-container" :class="{'darkTheme': darkTheme}">
       <RouterView />
     </div>
   </main>
@@ -12,6 +18,11 @@ import { RouterView } from "vue-router";
 
 <style scoped>
 .bg-container{
-  width: 100vw; 
+  width: 100vw;
+  min-height: 100vh; 
+}
+
+.darkTheme {
+  background-color: black;
 }
 </style>

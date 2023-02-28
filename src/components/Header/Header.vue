@@ -8,7 +8,11 @@ import { Expand, Moon, Sunny, Fold } from "@element-plus/icons-vue";
 
 const router = useRouter();
 const isMobileNavOpened = ref(false);
-const props = defineProps({ currentUserData: Object, currentPath: String, userId: String  });
+const props = defineProps({
+  currentUserData: Object,
+  currentPath: String,
+  userId: String,
+});
 const showLogout = ref(false);
 const { changeTheme } = useThemeStore();
 
@@ -38,39 +42,39 @@ const { darkTheme } = storeToRefs(theme);
 </script>
 
 <template>
-  <div class="header">
+  <div class="header" :class="{'darkTheme': darkTheme}">
     <Transition name="slide-fade">
       <div class="overlay-mobile" v-if="isMobileNavOpened">
         <ul class="side-bar-nav">
-        <li
-          class="side-bar-nav-item"
-          :class="{ active: props.currentPath === 'profile' }"
-          @click="onClickNav(`profile`)"
-        >
-          Profile
-        </li>
-        <li
-          class="side-bar-nav-item"
-          :class="{ active: props.currentPath === 'post' }"
-          @click="onClickNav(`post`)"
-        >
-          Post
-        </li>
-        <li
-          class="side-bar-nav-item"
-          :class="{ active: props.currentPath === 'gallery' }"
-          @click="onClickNav(`gallery`)"
-        >
-          Gallery
-        </li>
-        <li
-          class="side-bar-nav-item"
-          :class="{ active: props.currentPath === 'todos' }"
-          @click="onClickNav(`todos`)"
-        >
-          Todo
-        </li>
-      </ul>
+          <li
+            class="side-bar-nav-item"
+            :class="{ active: props.currentPath === 'profile' }"
+            @click="onClickNav(`profile`)"
+          >
+            Profile
+          </li>
+          <li
+            class="side-bar-nav-item"
+            :class="{ active: props.currentPath === 'post' }"
+            @click="onClickNav(`post`)"
+          >
+            Post
+          </li>
+          <li
+            class="side-bar-nav-item"
+            :class="{ active: props.currentPath === 'gallery' }"
+            @click="onClickNav(`gallery`)"
+          >
+            Gallery
+          </li>
+          <li
+            class="side-bar-nav-item"
+            :class="{ active: props.currentPath === 'todos' }"
+            @click="onClickNav(`todos`)"
+          >
+            Todo
+          </li>
+        </ul>
       </div>
     </Transition>
     <Transition name="bounce">
@@ -110,17 +114,6 @@ const { darkTheme } = storeToRefs(theme);
     </div>
 
     <div class="user-logout-wrapper">
-      <div class="profile-info-container" @click="onHoverProfile">
-        <img
-          :src="props.currentUserData.profilepicture"
-          :alt="props.currentUserData.username"
-          class="profile-icon"
-        />
-        <p class="profile-name" :class="{ 'theme-text': darkTheme }">
-          {{ props.currentUserData.username }}
-        </p>
-      </div>
-
       <div class="theme-wrapper">
         <Transition name="slide-up">
           <el-button
@@ -143,6 +136,17 @@ const { darkTheme } = storeToRefs(theme);
           </el-button>
         </Transition>
       </div>
+
+      <div class="profile-info-container" @click="onHoverProfile">
+        <img
+          :src="props.currentUserData.profilepicture"
+          :alt="props.currentUserData.username"
+          class="profile-icon"
+        />
+        <p class="profile-name" :class="{ 'theme-text': darkTheme }">
+          {{ props.currentUserData.username }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -150,10 +154,10 @@ const { darkTheme } = storeToRefs(theme);
 <style scoped>
 .profile-pop-card {
   position: absolute;
-  top: 80px;
+  top: 70px;
   right: 20px;
   width: 300px;
-  height: 300px;
+  height: 260px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: -1px 1px 41px 0px rgba(0, 0, 0, 0.55);
@@ -162,7 +166,16 @@ const { darkTheme } = storeToRefs(theme);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 200;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-pop-card {
+    width: 250px;
+    height: 230px;
+    top:70px;
+    right: 45px;
+  }
 }
 
 .header {
@@ -174,6 +187,17 @@ const { darkTheme } = storeToRefs(theme);
   margin: 0px;
   padding: 10px 10px;
   border-bottom: 1px solid #bababa;
+  background-color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 250;
+}
 }
 .page-name {
   font-weight: 600;
@@ -200,6 +224,12 @@ const { darkTheme } = storeToRefs(theme);
   width: 90%;
 }
 
+@media screen and (max-width: 768px) {
+  .profile-info-container {
+  margin-left: 20px;
+}
+}
+
 .profile-name {
   margin-right: 10px;
 }
@@ -210,6 +240,12 @@ const { darkTheme } = storeToRefs(theme);
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen and (max-width: 768px){
+  .button-wrapper {
+    height: 60px;
+}
 }
 
 .close-btn {
@@ -226,6 +262,12 @@ const { darkTheme } = storeToRefs(theme);
   background-color: blueviolet;
   color: #ffffff;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px){
+  .close-btn{
+    width: 50%;
+  }
 }
 
 .logout-btn {
@@ -245,11 +287,25 @@ const { darkTheme } = storeToRefs(theme);
   cursor: pointer;
 }
 
+@media screen and (max-width: 768px){
+  .logout-btn{
+    width: 50%;
+  }
+}
+
 .user-logout-img {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .user-logout-img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+  }
 }
 
 .theme-text {
@@ -302,7 +358,7 @@ const { darkTheme } = storeToRefs(theme);
   width: 44px;
 }
 
-.custom-mobile-fold-hamburg{
+.custom-mobile-fold-hamburg {
   color: #ffffff;
   font-size: 26px;
   padding: 0px;
@@ -340,7 +396,7 @@ const { darkTheme } = storeToRefs(theme);
 }
 
 @media screen and (max-width: 768px) {
-  .user-logout-wrapper{
+  .user-logout-wrapper {
     width: 50%;
   }
 }
@@ -391,7 +447,7 @@ const { darkTheme } = storeToRefs(theme);
 }
 
 .overlay-mobile {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -426,7 +482,6 @@ const { darkTheme } = storeToRefs(theme);
   opacity: 0;
 }
 
-
 .side-bar-nav {
   padding-left: 0px;
   list-style: none;
@@ -453,8 +508,12 @@ const { darkTheme } = storeToRefs(theme);
 }
 
 @media screen and (min-width: 768px) {
-  .theme-wrapper{
+  .theme-wrapper {
     display: none;
   }
+}
+
+.darkTheme {
+  background-color: black;
 }
 </style>

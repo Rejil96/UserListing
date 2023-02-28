@@ -1,17 +1,16 @@
 <script setup>
 import Sidebar from "../components/Sidebar/Sidebar.vue";
 import Header from "../components/Header/Header.vue";
-import Profile from "../components/Profile/Profile.vue"
+import Profile from "../components/Profile/Profile.vue";
 
-import {useThemeStore} from '../store/theme.js'
-import {storeToRefs} from 'pinia'
+import { useThemeStore } from "../store/theme.js";
+import { storeToRefs } from "pinia";
 
 import { ref, onMounted, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
 
-const theme = useThemeStore() 
-const {darkTheme} = storeToRefs(theme)
-
+const theme = useThemeStore();
+const { darkTheme } = storeToRefs(theme);
 
 const response = ref("");
 const route = useRoute();
@@ -38,14 +37,17 @@ const AsyncProfile = defineAsyncComponent(async () => {
     resolve(import("../components/Profile/Profile.vue"));
   });
 });
-
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail" :class="{ 'darkTheme' : darkTheme}">
-    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
+  <div class="bg-wrapper-user-detail" :class="{ darkTheme: darkTheme }">
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show" />
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
+      <Header
+        :currentUserData="currentUserData"
+        :currentPath="currentPath"
+        :userId="userId"
+      />
       <AsyncProfile :currentUserData="currentUserData" />
     </div>
   </div>
@@ -53,13 +55,20 @@ const AsyncProfile = defineAsyncComponent(async () => {
 
 <style scoped>
 .bg-wrapper-user-detail {
-  width: 100vi;
+  width: 100%;
   height: 100vh;
   display: flex;
   box-sizing: border-box;
 }
 
-.darkTheme{
+@media screen and (max-width: 768px) {
+  .bg-wrapper-user-detail {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+  }
+}
+.darkTheme {
   background-color: black;
 }
 
@@ -74,11 +83,9 @@ const AsyncProfile = defineAsyncComponent(async () => {
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 768px){
-  .custom-show{
+@media screen and (max-width: 768px) {
+  .custom-show {
     display: none;
   }
 }
-
-
 </style>

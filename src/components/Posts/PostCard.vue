@@ -40,7 +40,7 @@ const onCancelDelete = () => {
 </script>
 
 <template>
-  <Teleport to="body">
+
     <Transition name="bounce">
       <div class="delete-popup" v-if="showDeletePopup">
         <div class="delete-popup-content">
@@ -56,7 +56,7 @@ const onCancelDelete = () => {
         </div>
       </div>
     </Transition>
-  </Teleport>
+
   <li class="post-card" :class="{ 'theme-post-content': darkTheme }">
     <div class="post-card-header" :class="{ 'theme-post-header': darkTheme }">
       <div class="user-info-section">
@@ -104,6 +104,27 @@ const onCancelDelete = () => {
   margin-bottom: 10px;
   position: relative;
   overflow-y: auto;
+}
+
+@media screen and (max-width: 576px) {
+  .post-card {
+    width: 100%;
+    height: 220px;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .post-card {
+    width: 46%;
+    height: 220px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .post-card {
+    width: 260px;
+    height: 220px;
+  }
 }
 
 .post-card-header {
@@ -194,9 +215,12 @@ const onCancelDelete = () => {
 .theme-post-content {
   background-color: #1a1919;
 }
-
+body{
+  position: relative;
+  
+}
 .delete-popup {
-  position: absolute;
+  position: fixed;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -206,7 +230,8 @@ const onCancelDelete = () => {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);
-  overflow: hidden;
+  z-index: 1000;
+  
 }
 
 .delete-popup-content {
@@ -220,6 +245,13 @@ const onCancelDelete = () => {
   border-radius: 10px;
 }
 
+@media screen and (max-width: 768px) {
+  .delete-popup-content {
+    width: 80vw;
+    height: 26vh;
+  }
+}
+
 .button-wrapper {
   width: 100%;
   display: flex;
@@ -231,6 +263,13 @@ const onCancelDelete = () => {
 .delete-popup-text {
   font-weight: 500;
   font-size: 20px;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .delete-popup-text {
+    font-size: 16px;
+  }
 }
 
 /* animation */
@@ -251,8 +290,6 @@ const onCancelDelete = () => {
     transform: scale(0.9);
   }
 }
-
-
 
 /* animation */
 

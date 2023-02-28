@@ -4,16 +4,14 @@ import Company from "./Info/Company.vue";
 import Address from "./Info/Address.vue";
 import { GoogleMap, Marker } from "vue3-google-map";
 import { onMounted, ref } from "vue";
-import {useThemeStore} from '../../store/theme.js'
-import {storeToRefs} from 'pinia'
+import { useThemeStore } from "../../store/theme.js";
+import { storeToRefs } from "pinia";
 const props = defineProps({ currentUserData: Object });
 const companyData = ref({});
 const addressData = ref({});
 
 const theme = useThemeStore();
 const { darkTheme } = storeToRefs(theme);
-
-
 
 onMounted(() => {
   companyData.value = props.currentUserData.company;
@@ -33,7 +31,9 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
         :alt="props.currentUserData.username"
         class="profile-banner-img"
       />
-      <p class="profile-name" :class="{'theme-text' : darkTheme}">{{ props.currentUserData.name }}</p>
+      <p class="profile-name" :class="{ 'theme-text': darkTheme }">
+        {{ props.currentUserData.name }}
+      </p>
       <BasicUserInfo :currentUserData="currentUserData" />
       <Company :companyData="companyData" />
     </div>
@@ -62,8 +62,10 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
 }
 
 @media screen and (max-width: 768px) {
-  .profile-container{
+  .profile-container {
+    padding: 0px;
     flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -75,16 +77,39 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
   align-items: center;
 }
 
+@media screen and (max-width: 768px) {
+  .profile-info-container {
+    border: 0px;
+    width: 100%;
+  }
+}
+
 .profile-banner-img {
   width: 240px;
   border-radius: 50%;
   margin-top: 50px;
 }
 
+@media screen and (max-width: 768px) {
+  .profile-banner-img {
+    width: 140px;
+    margin-top: 30px;
+  }
+}
+
 .profile-name {
   font-size: 24px;
   font-weight: 500;
   color: rgb(73, 73, 73);
+}
+
+@media screen and (max-width: 768px) {
+  .profile-name {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(73, 73, 73);
+    margin-top: 40px;
+  }
 }
 
 .address-info-container {
@@ -94,13 +119,13 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
   align-items: center;
 }
 
-.map{
+.map {
   width: 600px;
   height: 100%;
   margin-top: 80px;
 }
 
-.theme-text{
+.theme-text {
   color: #ffffff;
 }
 </style>

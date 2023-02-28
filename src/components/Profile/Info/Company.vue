@@ -18,7 +18,7 @@ const { darkTheme } = storeToRefs(theme);
 
 <template>
   <p class="company-name" :class="{ 'theme-text': darkTheme }">Company</p>
-  <div class="profile-general-info">
+  <div class="profile-general-info" :class="{ 'dark-border': darkTheme }">
     <ul class="general-info-label-container">
       <li class="general-info-label" :class="{ 'theme-label-text-lighter': darkTheme }">
         Name &nbsp; &nbsp;:
@@ -31,9 +31,15 @@ const { darkTheme } = storeToRefs(theme);
       </li>
     </ul>
     <ul class="general-info-value-container">
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ companyData.name }}</li>
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ companyData.catchPhrase }}</li>
-      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">{{ companyData.bs }}</li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ companyData.name }}
+      </li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ companyData.catchPhrase }}
+      </li>
+      <li class="general-info-value" :class="{ 'theme-value-text-lighter': darkTheme }">
+        {{ companyData.bs }}
+      </li>
     </ul>
   </div>
 </template>
@@ -44,6 +50,20 @@ const { darkTheme } = storeToRefs(theme);
   width: 100%;
   height: 15vh;
 }
+
+@media screen and (max-width: 768px) {
+  .profile-general-info {
+    display: flex;
+    width: 96%;
+    height: 20vh;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 40px;
+  }
+
+  .dark-border {
+    border-bottom: 1px solid #454545;
+  }
+}
 .general-info-label-container {
   height: 100%;
   width: 50%;
@@ -53,6 +73,12 @@ const { darkTheme } = storeToRefs(theme);
   text-align: right;
   list-style: none;
   padding-left: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .general-info-label-container {
+    width: 40%;
+  }
 }
 
 .general-info-value-container {
@@ -66,6 +92,12 @@ const { darkTheme } = storeToRefs(theme);
   padding-left: 0px;
 }
 
+@media screen and (max-width: 768px) {
+  .general-info-value-container {
+    font-size: 14px;
+  }
+}
+
 .general-info-label {
   color: #797979;
   display: flex;
@@ -74,6 +106,12 @@ const { darkTheme } = storeToRefs(theme);
   height: 60px;
   width: 180px;
   text-align: right;
+}
+
+@media screen and (max-width: 768px) {
+  .general-info-label {
+    font-size: 14px;
+  }
 }
 
 .general-info-value {
@@ -96,15 +134,22 @@ const { darkTheme } = storeToRefs(theme);
   margin-top: 60px;
 }
 
+@media screen and (max-width: 768px) {
+  .company-name {
+    font-size: 16px;
+    margin-top: 40px;
+  }
+}
+
 .theme-label-text-lighter {
   color: #b0b0b0;
 }
 
 .theme-text {
-  color: #b0b0b0;;
+  color: #b0b0b0;
 }
 
 .theme-value-text-lighter {
-  color: #e0dddd;;
+  color: #e0dddd;
 }
 </style>
