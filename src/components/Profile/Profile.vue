@@ -61,6 +61,12 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
   padding: 20px;
 }
 
+@media screen and (max-width: 768px) {
+  .profile-container{
+    flex-direction: column;
+  }
+}
+
 .profile-info-container {
   width: 50%;
   border-right: 1px solid #bababa;

@@ -337,7 +337,12 @@ const { darkTheme } = storeToRefs(theme);
   align-items: center;
   position: relative;
   justify-content: center;
-  width: 50%;
+}
+
+@media screen and (max-width: 768px) {
+  .user-logout-wrapper{
+    width: 50%;
+  }
 }
 
 .custom-theme-btn {
