@@ -19,7 +19,9 @@ const { darkTheme } = storeToRefs(theme);
 <style scoped>
 .bg-container{
   width: 100vw;
-  min-height: 100vh; 
+  min-height: 100vh;
+  margin: 0px;
+  border: 0px; 
 }
 
 .darkTheme {

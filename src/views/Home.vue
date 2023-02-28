@@ -111,7 +111,7 @@ onMounted(async () => {
 
 @media screen and (max-width: 768px) {
   .user-card {
-    height: 80vh;
+    height: 72vh;
   }
 }
 

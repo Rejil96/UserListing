@@ -94,6 +94,7 @@ const excludeDataForBasicData = (address, company, name, profilepicture, ...rest
   .profile-banner-img {
     width: 140px;
     margin-top: 30px;
+    box-shadow: 0px -4px 67px -21px rgba(0,0,0,0.65);
   }
 }
 

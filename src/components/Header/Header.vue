@@ -166,7 +166,7 @@ const { darkTheme } = storeToRefs(theme);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 200;
+  z-index: 100;
 }
 
 @media screen and (max-width: 768px) {
