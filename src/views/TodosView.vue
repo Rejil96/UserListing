@@ -11,8 +11,8 @@ import {
   ElCheckbox,
 } from "element-plus";
 
-import {useThemeStore} from '../store/theme.js'
-import {storeToRefs} from 'pinia'
+import { useThemeStore } from "../store/theme.js";
+import { storeToRefs } from "pinia";
 
 import { Delete, Edit, Check } from "@element-plus/icons-vue";
 
@@ -22,8 +22,8 @@ import Header from "../components/Header/Header.vue";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
-const theme = useThemeStore() 
-const {darkTheme} = storeToRefs(theme)
+const theme = useThemeStore();
+const { darkTheme } = storeToRefs(theme);
 
 const response = ref("");
 const route = useRoute();
@@ -59,7 +59,6 @@ const isDataFoundInLocalStorage = () => {
     } else {
       userBasedTodo();
     }
-
   }
 };
 
@@ -72,14 +71,15 @@ const onFetchUserData = async () => {
   )[0];
 };
 
-
 // This function will add the users in to the local storage along with the created todos list
 const userBasedTodo = () => {
   if (localStorage.getItem("userTodos")) {
     const getCurrentStoredUsers = JSON.parse(localStorage.getItem("userTodos"));
-    const isUserAltreadyExistInLs = getCurrentStoredUsers.filter((eachData) => eachData.userId == userId)[0]
+    const isUserAltreadyExistInLs = getCurrentStoredUsers.filter(
+      (eachData) => eachData.userId == userId
+    )[0];
     if (isUserAltreadyExistInLs) {
-      console.log("entering")
+      console.log("entering");
       const getCurrentStoredItems = JSON.parse(localStorage.getItem("userTodos"));
       const modifyUserTodos = getCurrentStoredItems.map((eachData) => {
         if (eachData.userId == userId) {
@@ -129,12 +129,12 @@ const onCheck = (todoId) => {
     return eachData;
   });
 
-  userBasedTodo()
+  userBasedTodo();
 };
 
 const onDelete = (todoId) => {
   todoList.value = todoList.value.filter((eachData) => eachData.id !== todoId);
-  userBasedTodo()
+  userBasedTodo();
 };
 
 const onEdit = (todoId) => {
@@ -145,7 +145,7 @@ const onEdit = (todoId) => {
     }
     return eachData;
   });
-  userBasedTodo()
+  userBasedTodo();
 };
 
 const onSaveEdit = (todoId) => {
@@ -155,15 +155,19 @@ const onSaveEdit = (todoId) => {
     }
     return eachData;
   });
-  userBasedTodo()
+  userBasedTodo();
 };
 </script>
 
 <template>
-  <div class="bg-wrapper-user-detail" :class="{'darkTheme' : darkTheme}">
-    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show"/>
+  <div class="bg-wrapper-user-detail" :class="{ darkTheme: darkTheme }">
+    <Sidebar :currentPath="currentPath" :userId="userId" class="custom-show" />
     <div class="user-details-container">
-      <Header :currentUserData="currentUserData" :currentPath="currentPath" :userId="userId"/>
+      <Header
+        :currentUserData="currentUserData"
+        :currentPath="currentPath"
+        :userId="userId"
+      />
       <div class="todos-bg-wrapper">
         <el-row type="flex" justify="start" class="input-control-container">
           <el-col :span="24">
@@ -172,7 +176,7 @@ const onSaveEdit = (todoId) => {
                 v-model="todoText"
                 placeholder="Enter Todo Task"
                 class="input-control"
-                :class="{'custom-theme-bg' : darkTheme}"
+                :class="{ 'custom-theme-bg': darkTheme }"
               />
               <el-button
                 type="primary"
@@ -186,7 +190,12 @@ const onSaveEdit = (todoId) => {
         </el-row>
         <el-row type="flex" justify="start" class="input-control-container">
           <el-col :span="24">
-            <TransitionGroup name="list" tag="ul" class="todo-listing-container" v-if="todoList.length > 0">
+            <TransitionGroup
+              name="list"
+              tag="ul"
+              class="todo-listing-container"
+              v-if="todoList.length > 0"
+            >
               <li v-for="todo in todoList" :key="todo.id" class="list-item">
                 <el-input
                   v-model="editedInputValue"
@@ -215,6 +224,7 @@ const onSaveEdit = (todoId) => {
                     type="primary"
                     :icon="Edit"
                     circle
+                    class="mobile-btn"
                     @click="onEdit(todo.id)"
                   />
                   <el-button
@@ -222,6 +232,7 @@ const onSaveEdit = (todoId) => {
                     :icon="Delete"
                     circle
                     @click="onDelete(todo.id)"
+                    class="mobile-btn"
                   />
                   <el-button
                     type="success"
@@ -229,12 +240,15 @@ const onSaveEdit = (todoId) => {
                     circle
                     @click="onCheck(todo.id)"
                     :class="todo.isTodoCompleted ? '' : 'check-box-custom'"
+                    class="mobile-btn"
                   />
                 </div>
               </li>
             </TransitionGroup>
             <div v-if="todoList.length === 0" class="empty-bg-container">
-              <h1 class="todoEmptyText" :class="{'theme-empty-color' : darkTheme}">Todos Empty</h1>
+              <h1 class="todoEmptyText" :class="{ 'theme-empty-color': darkTheme }">
+                Todos Empty
+              </h1>
             </div>
           </el-col>
         </el-row>
@@ -251,9 +265,22 @@ const onSaveEdit = (todoId) => {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 768px) {
+  .bg-wrapper-user-detail {
+    height: 100%;
+  }
+}
+
 .info-panel {
   font-size: 78px;
   opacity: 0.2;
+}
+
+@media screen and (max-width: 768px) {
+  .info-panel {
+    font-size: 38px;
+    opacity: 0.2;
+  }
 }
 
 .posts-container {
@@ -281,6 +308,12 @@ const onSaveEdit = (todoId) => {
   border: 0px !important;
 }
 
+@media screen and (max-width: 768px) {
+  .input-control {
+    width: 100%;
+  }
+}
+
 .todo-listing-container {
   width: 90%;
   display: flex;
@@ -289,6 +322,15 @@ const onSaveEdit = (todoId) => {
   height: 62vh;
   padding-left: 0px;
   list-style: none;
+}
+
+@media screen and (max-width: 768px) {
+  .todo-listing-container {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0px;
+  }
 }
 
 .add-todo-btn {
@@ -306,6 +348,15 @@ const onSaveEdit = (todoId) => {
   margin-left: 64px;
 }
 
+@media screen and (max-width: 768px) {
+  .input-control-container {
+    margin-top: 0px;
+    width: 100%;
+    margin-left: 0px;
+    padding: 10px 20px;
+  }
+}
+
 .todos-bg-wrapper {
   width: 100%;
 }
@@ -320,6 +371,14 @@ const onSaveEdit = (todoId) => {
   border-left: 10px #3f7ee4 solid;
 }
 
+@media screen and (max-width: 764px) {
+  .list-item {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+}
+
 li:nth-child(even) {
   background-color: #ffffe0;
 }
@@ -331,6 +390,12 @@ li:nth-child(even) {
   width: 120px;
   justify-content: space-between;
   margin-right: 40px;
+}
+
+@media screen and (max-width: 768px) {
+  .button-wrapper {
+    margin-right: 20px;
+  }
 }
 
 .check-box-custom {
@@ -359,6 +424,12 @@ li:nth-child(even) {
   line-height: 24px;
 }
 
+@media screen and (max-width: 768px) {
+  .item-panel {
+    font-size: 14px;
+  }
+}
+
 .empty-bg-container {
   width: 100%;
   height: 50vh;
@@ -369,27 +440,40 @@ li:nth-child(even) {
   font-weight: 600;
   opacity: 0.2;
 }
-.darkTheme{
+.darkTheme {
   background-color: black;
 }
 
-.todoEmptyText{
+.todoEmptyText {
   font-size: 78px;
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
-.theme-empty-color{
+@media screen and (max-width: 768px) {
+  .todoEmptyText {
+    font-size: 38px;
+    opacity: 0.9;
+  }
+}
+
+.theme-empty-color {
   font-size: 78px;
   color: #ffffff;
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
-.custom-theme-bg :deep(.el-input__inner){
+@media screen and (max-width: 768px) {
+  .theme-empty-color {
+    font-size: 38px;
+  }
+}
+
+.custom-theme-bg :deep(.el-input__inner) {
   background-color: #252424;
   color: #ffffff;
 }
 
-.custom-theme-bg :deep(.el-input__wrapper)  {
+.custom-theme-bg :deep(.el-input__wrapper) {
   background-color: #252424;
   box-shadow: 0 0 0 0px;
 }
@@ -414,9 +498,24 @@ li:nth-child(even) {
   position: absolute;
 }
 
-@media screen and (max-width: 768px){
-  .custom-show{
+@media screen and (max-width: 768px) {
+  .custom-show {
     display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .input-control-wrapper {
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-btn{
+    width: 30px;
+    height: 30px;
   }
 }
 </style>

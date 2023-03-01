@@ -217,6 +217,13 @@ const { darkTheme } = storeToRefs(theme);
   margin-right: 20px;
 }
 
+@media  screen and (max-width: 768px) {
+  .profile-icon {
+  width: 30px;
+  margin-right: 10px;
+}
+}
+
 .profile-info-container {
   display: flex;
   align-items: center;
@@ -232,6 +239,12 @@ const { darkTheme } = storeToRefs(theme);
 
 .profile-name {
   margin-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-name {
+  font-size: 12px;
+}
 }
 
 .button-wrapper {
