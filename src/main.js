@@ -13,3 +13,9 @@ app.use(router)
 
 
 app.mount('#app')
+
+window.onbeforeunload = function() {
+    localStorage.clear()
+    return '';
+  };
+
