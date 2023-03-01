@@ -259,7 +259,7 @@ const onDeleteImages = (imageId) => {
 
 @media screen and (max-width: 768px) {
   .info-panel {
-    font-size: 18px;
+    font-size: 38px;
   }
 }
 
